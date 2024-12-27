@@ -10,7 +10,8 @@ export type News = {
 
 interface Search {
     id?: string,
-    title?: string,
+    title_ru?: string,
+    title_en?: string,
 }
 
 export default function getNews(data: {sortColumn: string, sortDirection: string, search?: Search}) {
