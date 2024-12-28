@@ -28,8 +28,8 @@ class NewsTransformer
 //                'announce_en' => $item->announce_en,
 //                'text_ru' => $item->text_ru,
 //                'text_en' => $item->text_en,
-                'created_at' => $item->created_at->format('d.m.y H:i'),
-                'updated_at' => $item->updated_at?->format('d.m.y H:i'),
+                'created_at' => $item->created_at->format('d.m.Y H:i'),
+                'updated_at' => $item->updated_at?->format('d.m.Y H:i'),
             ];
         })->toArray();
     }

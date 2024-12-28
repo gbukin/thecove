@@ -47,6 +47,12 @@ const user = usePage().props.auth.user;
                                 >
                                     Promotions
                                 </NavLink>
+                                <NavLink
+                                    :href="route('participators.index')"
+                                    :active="route().current('participators.index')"
+                                >
+                                    Promotion Participators
+                                </NavLink>
                             </div>
                         </div>
 
@@ -159,6 +165,12 @@ const user = usePage().props.auth.user;
                             :active="route().current()?.includes('promotions')"
                         >
                             Promotions
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('participators.index')"
+                            :active="route().current('participators.index')"
+                        >
+                            Promotion Participators
                         </ResponsiveNavLink>
                     </div>
 

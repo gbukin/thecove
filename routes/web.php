@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PromotionsController;
+use App\Http\Controllers\PromotionParticipatorController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -37,6 +38,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/edit/{promotion}', [PromotionsController::class, 'edit'])->name('edit');
         Route::post('/update/{promotion}', [PromotionsController::class, 'update'])->name('update');
     });
+
+    Route::get('/participators', [PromotionParticipatorController::class, 'index'])->name('participators.index');
+    Route::get('/participators/data', [PromotionParticipatorController::class, 'data'])->name('participators.data');
 });
 
 Route::redirect('/', '/login')->middleware('guest');
