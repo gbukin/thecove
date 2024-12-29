@@ -21,7 +21,6 @@ class NewsController extends Controller
         $columnMapper = fn(string $cell) => match ($cell) {
             'ID' => 'id',
             'Title' => 'title',
-            'Language' => 'language',
         };
 
         $news = News::orderBy(

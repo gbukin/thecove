@@ -16,6 +16,7 @@ const sortDirection = ref('ASC')
 const searchId = ref('')
 const searchTitleRu = ref('')
 const searchTitleEn = ref('')
+const searchShow = ref('All')
 // @ts-ignore
 const searchHandlerTimeout = ref(setTimeout(() => {}, 0))
 
@@ -28,11 +29,12 @@ const sync = () => {
         search: {}
     }
 
-    if (searchId.value.length || searchTitleRu.value.length || searchTitleEn.value.length) {
+    if (searchId.value.length || searchTitleRu.value.length || searchTitleEn.value.length || searchShow.value !== 'All') {
         data.search = {
             id: searchId.value,
             title_ru: searchTitleRu.value,
             title_en: searchTitleEn.value,
+            show: searchShow.value,
         }
     }
 
@@ -54,6 +56,7 @@ const changeSortDirection = () => {
 watch(searchId, handleSearch)
 watch(searchTitleRu, handleSearch)
 watch(searchTitleEn, handleSearch)
+watch(searchShow, handleSearch)
 
 function handleSearch() {
     if (searchHandlerTimeout.value) {
@@ -85,6 +88,7 @@ onMounted(() => sync())
                     <th class="w-4"><InputText v-model="searchId" placeholder="Search by ID"/></th>
                     <th class="w-72"><InputText v-model="searchTitleRu" placeholder="Search by Title Ru"/></th>
                     <th class="w-72"><InputText v-model="searchTitleEn" placeholder="Search by Title En"/></th>
+                    <th><Select v-model="searchShow" :options="['All', 'Yes', 'No']"/></th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -97,6 +101,7 @@ onMounted(() => sync())
                                 v-on:sort="changeSort(cell)"
                                 v-on:sort:direction="changeSortDirection"
                     />
+                    <th>Show</th>
                     <th>Created</th>
                     <th>Updated</th>
                     <th></th>
@@ -107,7 +112,8 @@ onMounted(() => sync())
                     <td>{{ row.id }}</td>
                     <td>{{ row.title_ru }}</td>
                     <td>{{ row.title_en }}</td>
-                    <td>{{ row.created_at }}</td>
+                    <td>{{ row.show ? 'Yes' : 'No' }}</td>
+                    <td>{{ row.date }}</td>
                     <td>{{ row.updated_at }}</td>
                     <td>
                         <NavLink :href="route('news.edit', {id: row.id})">

@@ -9,5 +9,14 @@ class News extends Model
 {
     use HasTimestamps;
 
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    public const CREATED_AT = 'date';
+
+    protected $guarded = ['id', 'date', 'updated_at'];
+
+    protected function casts(): array
+    {
+        return [
+            'date' => 'datetime',
+        ];
+    }
 }

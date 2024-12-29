@@ -25,7 +25,8 @@ const form = useForm({
     announce_ru: news.announce_ru,
     announce_en: news.announce_en,
     text_ru: news.text_ru,
-    text_en: news.text_en
+    text_en: news.text_en,
+    show: Boolean(news.show)
 })
 
 function upload() {
@@ -120,6 +121,14 @@ function upload() {
                         </Editor>
 
                         <InputError class="mt-2" :message="form.errors.text_en"/>
+                    </div>
+
+                    <div>
+                        <InputLabel for="show" value="Show"/>
+
+                        <Checkbox class="mt-2" v-model="form.show" binary/>
+
+                        <InputError class="mt-2" :message="form.errors.show"/>
                     </div>
 
                     <PageContainerBlockDivider/>

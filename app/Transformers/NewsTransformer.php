@@ -13,7 +13,7 @@ class NewsTransformer
      *     id: non-negative-int,
      *     title_ru: string,
      *     title_en: string,
-     *     created_at: string,
+     *     date: string,
      *     updated_at: string|null
      * }>
     */
@@ -24,11 +24,8 @@ class NewsTransformer
                 'id' => $item->id,
                 'title_ru' => $item->title_ru,
                 'title_en' => $item->title_en,
-//                'announce_ru' => $item->announce_ru,
-//                'announce_en' => $item->announce_en,
-//                'text_ru' => $item->text_ru,
-//                'text_en' => $item->text_en,
-                'created_at' => $item->created_at->format('d.m.Y H:i'),
+                'show' => $item->show,
+                'date' => $item->date->format('d.m.Y H:i'),
                 'updated_at' => $item->updated_at?->format('d.m.Y H:i'),
             ];
         })->toArray();

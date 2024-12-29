@@ -21,7 +21,8 @@ return new class extends Migration
                 $table->text('announce_en')->nullable(false);
                 $table->text('text_ru')->nullable(false);
                 $table->text('text_en')->nullable(false);
-                $table->timestamps();
+                $table->timestamp('date')->nullable(false)->useCurrent();
+                $table->timestamp('updated_at')->nullable()->useCurrentOnUpdate();
             });
         }
     }

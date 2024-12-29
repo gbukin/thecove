@@ -13,6 +13,7 @@ import Textarea from 'primevue/textarea'
 import Select from "primevue/select"
 import Button from "primevue/button"
 import Editor from "primevue/editor"
+import Checkbox from 'primevue/checkbox';
 import FileUpload from "primevue/fileupload";
 import Aura from "@primevue/themes/aura"
 
@@ -33,7 +34,7 @@ createInertiaApp({
                 theme: {
                     preset: Aura,
                     options: {
-                        darkModeSelector: false || 'none',
+                        darkModeSelector: 'none',
                     }
                 }
             })
@@ -45,6 +46,7 @@ createInertiaApp({
             .component('Button', Button)
             .component('Editor', Editor)
             .component('FileUpload', FileUpload)
+            .component('Checkbox', Checkbox)
             .mount(el)
     },
     progress: {

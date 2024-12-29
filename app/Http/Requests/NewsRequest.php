@@ -15,6 +15,7 @@ class NewsRequest extends FormRequest
             'announce_en' => 'required|string',
             'text_ru' => 'required|string',
             'text_en' => 'required|string',
+            'show' => 'required|bool',
         ];
     }
 }

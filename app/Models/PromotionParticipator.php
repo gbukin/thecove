@@ -14,7 +14,7 @@ class PromotionParticipator extends Model
     protected function casts(): array
     {
         return [
-            'check_time' => 'datetime:d.m.Y H:i',
+            'check_time' => 'datetime',
         ];
     }
 }
