@@ -6,6 +6,7 @@ import IconRefresh from "@/Components/Icons/IconRefresh.vue"
 import IconPencil from "@/Components/Icons/IconPencil.vue";
 import NavLink from "@/Components/NavLink.vue";
 import getPromotions, {Promotions} from "@/API/promotions";
+import IconNoImage from '@/Components/Icons/IconNoImage.vue';
 
 const rows = ref<Promotions[]>([])
 
@@ -52,7 +53,10 @@ onMounted(() => {
                     <td>{{ row.title }}</td>
                     <td>{{ row.description }}</td>
                     <td>{{ row.language }}</td>
-                    <td><img :src="row.picture" class="size-16"></td>
+                    <td class="flex items-center justify-center">
+                        <img :src="row.picture" class="size-16" v-if="row.picture">
+                        <IconNoImage class="size-16" v-else/>
+                    </td>
                     <td>{{ row.created_at }}</td>
                     <td>{{ row.updated_at }}</td>
                     <td>

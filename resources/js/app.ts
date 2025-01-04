@@ -15,6 +15,7 @@ import Button from "primevue/button"
 import Editor from "primevue/editor"
 import Checkbox from 'primevue/checkbox';
 import FileUpload from "primevue/fileupload";
+import DatePicker from "primevue/datepicker";
 import Aura from "@primevue/themes/aura"
 
 const appName = 'The Cove Pub'
@@ -47,6 +48,7 @@ createInertiaApp({
             .component('Editor', Editor)
             .component('FileUpload', FileUpload)
             .component('Checkbox', Checkbox)
+            .component('DatePicker', DatePicker)
             .mount(el)
     },
     progress: {

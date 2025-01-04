@@ -15,6 +15,7 @@ const form = useForm({
     body: '',
     picture: null,
     language: '',
+    start_at: new Date,
 })
 
 const previewSrc = computed(() => {
@@ -99,6 +100,21 @@ const previewSrc = computed(() => {
                         />
 
                         <InputError class="mt-2" :message="form.errors.language"/>
+                    </div>
+                    <div>
+                        <InputLabel for="start_at" value="Start At"/>
+
+                        <DatePicker
+                            id="start_at"
+                            class="mt-1 block"
+                            v-model="form.start_at"
+                            date-format="dd/mm/yy"
+                            :min-date="new Date"
+                            :manual-input="false"
+                            required
+                        />
+
+                        <InputError class="mt-2" :message="form.errors.start_at"/>
                     </div>
 
                     <PageContainerBlockDivider/>

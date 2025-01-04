@@ -20,7 +20,7 @@ class PromotionService
 
         $storage->putFileAs(self::STORAGE_ROOT_PATH, $file, $filename);
 
-        $promotion->picture = $filename;
+        $promotion->picture ='/storage/promotions/' . $filename;
         $promotion->save();
     }
 }

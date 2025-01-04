@@ -28,7 +28,7 @@ class PromotionsTransformer
                 'title' => $item->title,
                 'description' => $item->description,
                 'language' => $item->language,
-                'picture' => asset('storage/promotions/' . $item->picture),
+                'picture' => $item->picture,
                 'created_at' => $item->created_at->format('d.m.Y H:i'),
                 'updated_at' => $item->updated_at?->format('d.m.Y H:i'),
             ];

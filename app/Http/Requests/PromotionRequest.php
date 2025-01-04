@@ -14,6 +14,7 @@ class PromotionRequest extends FormRequest
             'body' => 'required|string',
             'language' => 'required|string|max:2|in:en,ru,th',
             'picture' => 'nullable|file|image|mimes:jpg,jpeg,png,webp',
+            'start_at' => 'required|date|date_format:Y-m-d\TH:i:s.vp',
         ];
     }
 }

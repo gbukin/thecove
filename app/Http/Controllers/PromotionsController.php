@@ -43,7 +43,7 @@ class PromotionsController extends Controller
     {
         return Inertia::render('Promotions/Edit')->with([
             'promotion' => $promotion,
-            'currentPicturePath' => asset('storage/promotions/' . $promotion->picture),
+            'currentPicturePath' => $promotion->picture,
         ]);
     }
 
