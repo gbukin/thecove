@@ -1,5 +1,85 @@
-const Ziggy = {"url":"http:\/\/localhost","port":null,"defaults":{},"routes":{"sanctum.csrf-cookie":{"uri":"sanctum\/csrf-cookie","methods":["GET","HEAD"]},"dashboard":{"uri":"dashboard","methods":["GET","HEAD"]},"profile.edit":{"uri":"profile","methods":["GET","HEAD"]},"profile.update":{"uri":"profile","methods":["PATCH"]},"profile.destroy":{"uri":"profile","methods":["DELETE"]},"news":{"uri":"news","methods":["GET","HEAD"]},"news.create":{"uri":"news\/create","methods":["GET","HEAD"]},"news.store":{"uri":"news","methods":["POST"]},"news.show":{"uri":"news\/{news}","methods":["GET","HEAD"],"parameters":["news"],"bindings":{"news":"id"}},"news.edit":{"uri":"news\/{news}\/edit","methods":["GET","HEAD"],"parameters":["news"],"bindings":{"news":"id"}},"news.update":{"uri":"news\/{news}","methods":["PUT","PATCH"],"parameters":["news"],"bindings":{"news":"id"}},"news.destroy":{"uri":"news\/{news}","methods":["DELETE"],"parameters":["news"],"bindings":{"news":"id"}},"news.data":{"uri":"news\/data","methods":["GET","HEAD"]},"register":{"uri":"register","methods":["GET","HEAD"]},"login":{"uri":"login","methods":["GET","HEAD"]},"password.request":{"uri":"forgot-password","methods":["GET","HEAD"]},"password.email":{"uri":"forgot-password","methods":["POST"]},"password.reset":{"uri":"reset-password\/{token}","methods":["GET","HEAD"],"parameters":["token"]},"password.store":{"uri":"reset-password","methods":["POST"]},"verification.notice":{"uri":"verify-email","methods":["GET","HEAD"]},"verification.verify":{"uri":"verify-email\/{id}\/{hash}","methods":["GET","HEAD"],"parameters":["id","hash"]},"verification.send":{"uri":"email\/verification-notification","methods":["POST"]},"password.confirm":{"uri":"confirm-password","methods":["GET","HEAD"]},"password.update":{"uri":"password","methods":["PUT"]},"logout":{"uri":"logout","methods":["POST"]},"storage.local":{"uri":"storage\/{path}","methods":["GET","HEAD"],"wheres":{"path":".*"},"parameters":["path"]}}};
+const Ziggy = {
+    url: 'http://localhost',
+    port: null,
+    defaults: {},
+    routes: {
+        'sanctum.csrf-cookie': {
+            uri: 'sanctum/csrf-cookie',
+            methods: ['GET', 'HEAD'],
+        },
+        dashboard: { uri: 'dashboard', methods: ['GET', 'HEAD'] },
+        'profile.edit': { uri: 'profile', methods: ['GET', 'HEAD'] },
+        'profile.update': { uri: 'profile', methods: ['PATCH'] },
+        'profile.destroy': { uri: 'profile', methods: ['DELETE'] },
+        news: { uri: 'news', methods: ['GET', 'HEAD'] },
+        'news.create': { uri: 'news/create', methods: ['GET', 'HEAD'] },
+        'news.store': { uri: 'news', methods: ['POST'] },
+        'news.show': {
+            uri: 'news/{news}',
+            methods: ['GET', 'HEAD'],
+            parameters: ['news'],
+            bindings: { news: 'id' },
+        },
+        'news.edit': {
+            uri: 'news/{news}/edit',
+            methods: ['GET', 'HEAD'],
+            parameters: ['news'],
+            bindings: { news: 'id' },
+        },
+        'news.update': {
+            uri: 'news/{news}',
+            methods: ['PUT', 'PATCH'],
+            parameters: ['news'],
+            bindings: { news: 'id' },
+        },
+        'news.destroy': {
+            uri: 'news/{news}',
+            methods: ['DELETE'],
+            parameters: ['news'],
+            bindings: { news: 'id' },
+        },
+        'news.data': { uri: 'news/data', methods: ['GET', 'HEAD'] },
+        register: { uri: 'register', methods: ['GET', 'HEAD'] },
+        login: { uri: 'login', methods: ['GET', 'HEAD'] },
+        'password.request': {
+            uri: 'forgot-password',
+            methods: ['GET', 'HEAD'],
+        },
+        'password.email': { uri: 'forgot-password', methods: ['POST'] },
+        'password.reset': {
+            uri: 'reset-password/{token}',
+            methods: ['GET', 'HEAD'],
+            parameters: ['token'],
+        },
+        'password.store': { uri: 'reset-password', methods: ['POST'] },
+        'verification.notice': {
+            uri: 'verify-email',
+            methods: ['GET', 'HEAD'],
+        },
+        'verification.verify': {
+            uri: 'verify-email/{id}/{hash}',
+            methods: ['GET', 'HEAD'],
+            parameters: ['id', 'hash'],
+        },
+        'verification.send': {
+            uri: 'email/verification-notification',
+            methods: ['POST'],
+        },
+        'password.confirm': {
+            uri: 'confirm-password',
+            methods: ['GET', 'HEAD'],
+        },
+        'password.update': { uri: 'password', methods: ['PUT'] },
+        logout: { uri: 'logout', methods: ['POST'] },
+        'storage.local': {
+            uri: 'storage/{path}',
+            methods: ['GET', 'HEAD'],
+            wheres: { path: '.*' },
+            parameters: ['path'],
+        },
+    },
+};
 if (typeof window !== 'undefined' && typeof window.Ziggy !== 'undefined') {
-  Object.assign(Ziggy.routes, window.Ziggy.routes);
+    Object.assign(Ziggy.routes, window.Ziggy.routes);
 }
 export { Ziggy };

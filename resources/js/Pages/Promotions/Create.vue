@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
-import PageContainer from "@/Components/PageContainer.vue"
-import PageContainerBlock from "@/Components/PageContainerBlock.vue"
-import InputError from "@/Components/InputError.vue"
-import InputLabel from "@/Components/InputLabel.vue"
-import {useForm} from "@inertiajs/vue3"
-import {languages} from "@/constants"
-import PageContainerBlockDivider from "@/Components/PageContainerBlockDivider.vue"
-import {computed} from "vue";
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import PageContainer from '@/Components/PageContainer.vue';
+import PageContainerBlock from '@/Components/PageContainerBlock.vue';
+import PageContainerBlockDivider from '@/Components/PageContainerBlockDivider.vue';
+import { languages } from '@/constants';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { useForm } from '@inertiajs/vue3';
+import { computed } from 'vue';
 
 const form = useForm({
     title: '',
@@ -15,25 +15,26 @@ const form = useForm({
     body: '',
     picture: null,
     language: '',
-    start_at: new Date,
-})
+    start_at: new Date(),
+});
 
 const previewSrc = computed(() => {
-    return form.picture ? URL.createObjectURL(form.picture) : ''
-})
+    return form.picture ? URL.createObjectURL(form.picture) : '';
+});
 </script>
 
 <template>
     <AuthenticatedLayout>
-        <template #header>
-            Create Promotion
-        </template>
+        <template #header> Create Promotion </template>
 
         <PageContainer>
             <PageContainerBlock>
-                <form @submit.prevent="form.post(route('promotions.store'))" class="space-y-6">
+                <form
+                    @submit.prevent="form.post(route('promotions.store'))"
+                    class="space-y-6"
+                >
                     <div>
-                        <InputLabel for="title" value="Title" required/>
+                        <InputLabel for="title" value="Title" required />
 
                         <InputText
                             id="title"
@@ -43,10 +44,14 @@ const previewSrc = computed(() => {
                             required
                         />
 
-                        <InputError class="mt-2" :message="form.errors.title"/>
+                        <InputError class="mt-2" :message="form.errors.title" />
                     </div>
                     <div>
-                        <InputLabel for="description" value="Description" required/>
+                        <InputLabel
+                            for="description"
+                            value="Description"
+                            required
+                        />
 
                         <InputText
                             id="description"
@@ -56,21 +61,26 @@ const previewSrc = computed(() => {
                             required
                         />
 
-                        <InputError class="mt-2" :message="form.errors.description"/>
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.description"
+                        />
                     </div>
                     <div>
-                        <InputLabel for="body" value="Body" required/>
+                        <InputLabel for="body" value="Body" required />
 
-                        <Editor class="mt-1 block w-full"
-                                id="body"
-                                v-model="form.body"
-                                required>
+                        <Editor
+                            class="mt-1 block w-full"
+                            id="body"
+                            v-model="form.body"
+                            required
+                        >
                         </Editor>
 
-                        <InputError class="mt-2" :message="form.errors.body"/>
+                        <InputError class="mt-2" :message="form.errors.body" />
                     </div>
                     <div>
-                        <InputLabel for="picture" value="Picture"/>
+                        <InputLabel for="picture" value="Picture" />
 
                         <FileUpload
                             id="language"
@@ -82,14 +92,21 @@ const previewSrc = computed(() => {
                         />
 
                         <figure>
-                            <img :src="previewSrc" class="mx-auto w-64 h-64" v-if="previewSrc"/>
+                            <img
+                                :src="previewSrc"
+                                class="mx-auto h-64 w-64"
+                                v-if="previewSrc"
+                            />
                             <figcaption>Preview</figcaption>
                         </figure>
 
-                        <InputError class="mt-2" :message="form.errors.picture"/>
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.picture"
+                        />
                     </div>
                     <div>
-                        <InputLabel for="language" value="Language"/>
+                        <InputLabel for="language" value="Language" />
 
                         <Select
                             id="language"
@@ -99,30 +116,38 @@ const previewSrc = computed(() => {
                             required
                         />
 
-                        <InputError class="mt-2" :message="form.errors.language"/>
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.language"
+                        />
                     </div>
                     <div>
-                        <InputLabel for="start_at" value="Start At"/>
+                        <InputLabel for="start_at" value="Start At" />
 
                         <DatePicker
                             id="start_at"
                             class="mt-1 block"
                             v-model="form.start_at"
                             date-format="dd/mm/yy"
-                            :min-date="new Date"
+                            :min-date="new Date()"
                             :manual-input="false"
                             required
                         />
 
-                        <InputError class="mt-2" :message="form.errors.start_at"/>
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.start_at"
+                        />
                     </div>
 
-                    <PageContainerBlockDivider/>
+                    <PageContainerBlockDivider />
 
                     <div class="flex flex-row gap-x-2">
                         <Button type="submit">Create</Button>
                         <a :href="route('promotions.index')">
-                            <Button type="button" severity="contrast">Back</Button>
+                            <Button type="button" severity="contrast"
+                                >Back</Button
+                            >
                         </a>
                     </div>
                 </form>

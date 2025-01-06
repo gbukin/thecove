@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
-import PageContainer from "@/Components/PageContainer.vue"
-import PageContainerBlock from "@/Components/PageContainerBlock.vue"
-import InputError from "@/Components/InputError.vue"
-import InputLabel from "@/Components/InputLabel.vue"
-import {useForm} from "@inertiajs/vue3"
-import PageContainerBlockDivider from "@/Components/PageContainerBlockDivider.vue"
-import {useToast} from "primevue"
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import PageContainer from '@/Components/PageContainer.vue';
+import PageContainerBlock from '@/Components/PageContainerBlock.vue';
+import PageContainerBlockDivider from '@/Components/PageContainerBlockDivider.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { useForm } from '@inertiajs/vue3';
+import { useToast } from 'primevue';
 
-const toast = useToast()
+const toast = useToast();
 
 const props = defineProps({
     news: {
         type: Object,
-        required: true
-    }
-})
+        required: true,
+    },
+});
 
-const news = props.news
+const news = props.news;
 
 const form = useForm({
     title_ru: news.title_ru,
@@ -26,18 +26,19 @@ const form = useForm({
     announce_en: news.announce_en,
     text_ru: news.text_ru,
     text_en: news.text_en,
-    show: Boolean(news.show)
-})
+    show: Boolean(news.show),
+});
 
 function upload() {
-    form.post(
-        route('news.update', {id: news.id}),
-        {
-            onSuccess: () => {
-                toast.add({severity: 'success', summary: 'Success', detail: 'News updated'})
-            }
-        }
-    )
+    form.post(route('news.update', { id: news.id }), {
+        onSuccess: () => {
+            toast.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'News updated',
+            });
+        },
+    });
 }
 </script>
 
@@ -51,7 +52,7 @@ function upload() {
             <PageContainerBlock>
                 <form @submit.prevent="upload()" class="space-y-6">
                     <div>
-                        <InputLabel for="title_ru" value="Title Ru"/>
+                        <InputLabel for="title_ru" value="Title Ru" />
 
                         <InputText
                             id="title_ru"
@@ -61,10 +62,13 @@ function upload() {
                             required
                         />
 
-                        <InputError class="mt-2" :message="form.errors.title_ru"/>
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.title_ru"
+                        />
                     </div>
                     <div>
-                        <InputLabel for="title_en" value="Title En"/>
+                        <InputLabel for="title_en" value="Title En" />
 
                         <InputText
                             id="title_ru"
@@ -74,69 +78,94 @@ function upload() {
                             required
                         />
 
-                        <InputError class="mt-2" :message="form.errors.title_en"/>
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.title_en"
+                        />
                     </div>
 
                     <div>
-                        <InputLabel for="announce_ru" value="Announce Ru"/>
+                        <InputLabel for="announce_ru" value="Announce Ru" />
 
-                        <Editor class="mt-1 block w-full"
-                                  id="body"
-                                  v-model="form.announce_ru"
-                                  required>
+                        <Editor
+                            class="mt-1 block w-full"
+                            id="body"
+                            v-model="form.announce_ru"
+                            required
+                        >
                         </Editor>
 
-                        <InputError class="mt-2" :message="form.errors.announce_ru"/>
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.announce_ru"
+                        />
                     </div>
                     <div>
-                        <InputLabel for="announce_en" value="Announce En"/>
+                        <InputLabel for="announce_en" value="Announce En" />
 
-                        <Editor class="mt-1 block w-full"
-                                  id="body"
-                                  v-model="form.announce_en"
-                                  required>
+                        <Editor
+                            class="mt-1 block w-full"
+                            id="body"
+                            v-model="form.announce_en"
+                            required
+                        >
                         </Editor>
 
-                        <InputError class="mt-2" :message="form.errors.announce_en"/>
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.announce_en"
+                        />
                     </div>
 
                     <div>
-                        <InputLabel for="text_ru" value="Text Ru"/>
+                        <InputLabel for="text_ru" value="Text Ru" />
 
-                        <Editor class="mt-1 block w-full"
-                                  id="body"
-                                  v-model="form.text_ru"
-                                  required>
+                        <Editor
+                            class="mt-1 block w-full"
+                            id="body"
+                            v-model="form.text_ru"
+                            required
+                        >
                         </Editor>
 
-                        <InputError class="mt-2" :message="form.errors.text_ru"/>
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.text_ru"
+                        />
                     </div>
                     <div>
-                        <InputLabel for="text_en" value="Text En"/>
+                        <InputLabel for="text_en" value="Text En" />
 
-                        <Editor class="mt-1 block w-full"
-                                  id="body"
-                                  v-model="form.text_en"
-                                  required>
+                        <Editor
+                            class="mt-1 block w-full"
+                            id="body"
+                            v-model="form.text_en"
+                            required
+                        >
                         </Editor>
 
-                        <InputError class="mt-2" :message="form.errors.text_en"/>
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.text_en"
+                        />
                     </div>
 
                     <div>
-                        <InputLabel for="show" value="Show"/>
+                        <InputLabel for="show" value="Show" />
 
-                        <Checkbox class="mt-2" v-model="form.show" binary/>
+                        <Checkbox class="mt-2" v-model="form.show" binary />
 
-                        <InputError class="mt-2" :message="form.errors.show"/>
+                        <InputError class="mt-2" :message="form.errors.show" />
                     </div>
 
-                    <PageContainerBlockDivider/>
+                    <PageContainerBlockDivider />
 
                     <div class="flex flex-row gap-x-2">
                         <Button type="submit">Update</Button>
                         <a :href="route('news.index')">
-                            <Button type="button" severity="contrast">Back</Button>
+                            <Button type="button" severity="contrast"
+                                >Back</Button
+                            >
                         </a>
                     </div>
                 </form>
@@ -145,6 +174,4 @@ function upload() {
     </AuthenticatedLayout>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

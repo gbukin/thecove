@@ -1,3 +1,3 @@
 <template>
-    <hr class="page__container__divider">
+    <hr class="page__container__divider" />
 </template>

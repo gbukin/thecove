@@ -1,24 +1,24 @@
-import '../css/app.css'
-import './bootstrap'
+import '../css/app.css';
+import './bootstrap';
 
-import { createInertiaApp } from '@inertiajs/vue3'
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
-import { createApp, DefineComponent, h } from 'vue'
-import { ZiggyVue } from '../../vendor/tightenco/ziggy'
-import PrimeVue from "primevue/config"
-import Toast from 'primevue/toast';
-import ToastService from 'primevue/toastservice'
-import InputText from "primevue/inputtext";
-import Textarea from 'primevue/textarea'
-import Select from "primevue/select"
-import Button from "primevue/button"
-import Editor from "primevue/editor"
+import { createInertiaApp } from '@inertiajs/vue3';
+import Aura from '@primevue/themes/aura';
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import Button from 'primevue/button';
 import Checkbox from 'primevue/checkbox';
-import FileUpload from "primevue/fileupload";
-import DatePicker from "primevue/datepicker";
-import Aura from "@primevue/themes/aura"
+import PrimeVue from 'primevue/config';
+import DatePicker from 'primevue/datepicker';
+import Editor from 'primevue/editor';
+import FileUpload from 'primevue/fileupload';
+import InputText from 'primevue/inputtext';
+import Select from 'primevue/select';
+import Textarea from 'primevue/textarea';
+import Toast from 'primevue/toast';
+import ToastService from 'primevue/toastservice';
+import { createApp, DefineComponent, h } from 'vue';
+import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 
-const appName = 'The Cove Pub'
+const appName = 'The Cove Pub';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -36,8 +36,8 @@ createInertiaApp({
                     preset: Aura,
                     options: {
                         darkModeSelector: 'none',
-                    }
-                }
+                    },
+                },
             })
             .use(ToastService)
             .component('Toast', Toast)
@@ -49,9 +49,9 @@ createInertiaApp({
             .component('FileUpload', FileUpload)
             .component('Checkbox', Checkbox)
             .component('DatePicker', DatePicker)
-            .mount(el)
+            .mount(el);
     },
     progress: {
         color: '#4B5563',
     },
-})
+});

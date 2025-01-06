@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue"
-import PageContainer from "@/Components/PageContainer.vue"
-import PageContainerBlock from "@/Components/PageContainerBlock.vue"
-import InputError from "@/Components/InputError.vue"
-import InputLabel from "@/Components/InputLabel.vue"
-import {useForm} from "@inertiajs/vue3"
-import {languages} from "@/constants"
-import PageContainerBlockDivider from "@/Components/PageContainerBlockDivider.vue"
-import {computed, ref} from "vue"
-import {useToast} from "primevue"
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import PageContainer from '@/Components/PageContainer.vue';
+import PageContainerBlock from '@/Components/PageContainerBlock.vue';
+import PageContainerBlockDivider from '@/Components/PageContainerBlockDivider.vue';
+import { languages } from '@/constants';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { useForm } from '@inertiajs/vue3';
+import { useToast } from 'primevue';
+import { computed, ref } from 'vue';
 
-const toast = useToast()
+const toast = useToast();
 
 const props = defineProps({
     promotion: {
@@ -20,11 +20,11 @@ const props = defineProps({
     currentPicturePath: {
         type: String,
         required: true,
-    }
-})
+    },
+});
 
-const currentPicture = ref(props.currentPicturePath)
-const promotion = props.promotion
+const currentPicture = ref(props.currentPicturePath);
+const promotion = props.promotion;
 
 const form = useForm({
     title: promotion.title,
@@ -33,25 +33,26 @@ const form = useForm({
     picture: null,
     language: promotion.language,
     start_at: new Date(promotion.start_at),
-})
+});
 
 const previewSrc = computed(() => {
-    return form.picture ? URL.createObjectURL(form.picture) : ''
-})
+    return form.picture ? URL.createObjectURL(form.picture) : '';
+});
 
 function upload() {
-    form.post(
-        route('promotions.update', {id: promotion.id}),
-        {
-            onSuccess: () => {
-                if (form.picture) {
-                    currentPicture.value = URL.createObjectURL(form.picture)
-                    form.reset()
-                }
-                toast.add({severity: 'success', summary: 'Success', detail: 'Promotion updated'})
+    form.post(route('promotions.update', { id: promotion.id }), {
+        onSuccess: () => {
+            if (form.picture) {
+                currentPicture.value = URL.createObjectURL(form.picture);
+                form.reset();
             }
-        }
-    )
+            toast.add({
+                severity: 'success',
+                summary: 'Success',
+                detail: 'Promotion updated',
+            });
+        },
+    });
 }
 </script>
 
@@ -65,7 +66,7 @@ function upload() {
             <PageContainerBlock>
                 <form @submit.prevent="upload()" class="space-y-6">
                     <div>
-                        <InputLabel for="title" value="Title"/>
+                        <InputLabel for="title" value="Title" />
 
                         <InputText
                             id="title"
@@ -75,10 +76,10 @@ function upload() {
                             required
                         />
 
-                        <InputError class="mt-2" :message="form.errors.title"/>
+                        <InputError class="mt-2" :message="form.errors.title" />
                     </div>
                     <div>
-                        <InputLabel for="description" value="Description"/>
+                        <InputLabel for="description" value="Description" />
 
                         <InputText
                             id="description"
@@ -88,24 +89,32 @@ function upload() {
                             required
                         />
 
-                        <InputError class="mt-2" :message="form.errors.description"/>
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.description"
+                        />
                     </div>
                     <div>
-                        <InputLabel for="body" value="Body"/>
+                        <InputLabel for="body" value="Body" />
 
-                        <Editor class="mt-1 block w-full"
-                                  id="body"
-                                  v-model="form.body"
-                                  required>
+                        <Editor
+                            class="mt-1 block w-full"
+                            id="body"
+                            v-model="form.body"
+                            required
+                        >
                         </Editor>
 
-                        <InputError class="mt-2" :message="form.errors.body"/>
+                        <InputError class="mt-2" :message="form.errors.body" />
                     </div>
                     <div>
-                        <InputLabel for="picture" value="Picture"/>
+                        <InputLabel for="picture" value="Picture" />
 
                         <figure>
-                            <img :src="currentPicture" class="mx-auto w-64 h-64">
+                            <img
+                                :src="currentPicture"
+                                class="mx-auto h-64 w-64"
+                            />
                             <figcaption>Current</figcaption>
                         </figure>
 
@@ -119,14 +128,21 @@ function upload() {
                         />
 
                         <figure>
-                            <img :src="previewSrc" class="mx-auto w-64 h-64" v-if="previewSrc"/>
+                            <img
+                                :src="previewSrc"
+                                class="mx-auto h-64 w-64"
+                                v-if="previewSrc"
+                            />
                             <figcaption>Preview</figcaption>
                         </figure>
 
-                        <InputError class="mt-2" :message="form.errors.picture"/>
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.picture"
+                        />
                     </div>
                     <div>
-                        <InputLabel for="language" value="Language"/>
+                        <InputLabel for="language" value="Language" />
 
                         <Select
                             id="language"
@@ -137,30 +153,38 @@ function upload() {
                             required
                         />
 
-                        <InputError class="mt-2" :message="form.errors.language"/>
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.language"
+                        />
                     </div>
                     <div>
-                        <InputLabel for="start_at" value="Start At"/>
+                        <InputLabel for="start_at" value="Start At" />
 
                         <DatePicker
                             id="start_at"
                             class="mt-1 block"
                             v-model="form.start_at"
                             date-format="dd/mm/yy"
-                            :min-date="new Date"
+                            :min-date="new Date()"
                             :manual-input="false"
                             required
                         />
 
-                        <InputError class="mt-2" :message="form.errors.start_at"/>
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors.start_at"
+                        />
                     </div>
 
-                    <PageContainerBlockDivider/>
+                    <PageContainerBlockDivider />
 
                     <div class="flex flex-row gap-x-2">
                         <Button type="submit">Update</Button>
                         <a :href="route('promotions.index')">
-                            <Button type="button" severity="contrast">Back</Button>
+                            <Button type="button" severity="contrast"
+                                >Back</Button
+                            >
                         </a>
                     </div>
                 </form>
@@ -169,6 +193,4 @@ function upload() {
     </AuthenticatedLayout>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
