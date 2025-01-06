@@ -34,6 +34,14 @@ const user = usePage().props.auth.user;
                                 class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
                             >
                                 <NavLink
+                                    :href="route('language.index')"
+                                    :active="
+                                        route().current()?.includes('language')
+                                    "
+                                >
+                                    Languages
+                                </NavLink>
+                                <NavLink
                                     :href="route('news.index')"
                                     :active="
                                         route().current()?.includes('news')
@@ -160,6 +168,12 @@ const user = usePage().props.auth.user;
                     class="sm:hidden"
                 >
                     <div class="space-y-1 pb-3 pt-2">
+                        <ResponsiveNavLink
+                            :href="route('language.index')"
+                            :active="route().current()?.includes('languages')"
+                        >
+                            Languages
+                        </ResponsiveNavLink>
                         <ResponsiveNavLink
                             :href="route('news.index')"
                             :active="route().current()?.includes('news.index')"

@@ -15,19 +15,42 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    languages: {
+        type: Array,
+        required: true
+    }
 });
 
 const news = props.news;
 
-const form = useForm({
-    title_ru: news.title_ru,
-    title_en: news.title_en,
-    announce_ru: news.announce_ru,
-    announce_en: news.announce_en,
-    text_ru: news.text_ru,
-    text_en: news.text_en,
+// const form = useForm({
+//     title_ru: news.title_ru,
+//     title_en: news.title_en,
+//     announce_ru: news.announce_ru,
+//     announce_en: news.announce_en,
+//     text_ru: news.text_ru,
+//     text_en: news.text_en,
+//     show: Boolean(news.show),
+// });
+
+let fields = {
     show: Boolean(news.show),
-});
+};
+
+props.news.news_data?.forEach((item) => {
+    fields['news_data_' + item.language + '_id'] = item.id;
+    fields['title_' + item.language] = item.title;
+    fields['announce_' + item.language] = item.announce;
+    fields['text_' + item.language] = item.text;
+})
+
+// props.languages?.forEach((item) => {
+//     fields['title_' + item] = '';
+//     fields['announce_' + item] = '';
+//     fields['text_' + item] = '';
+// });
+//
+const form = useForm(fields);
 
 function upload() {
     form.post(route('news.update', { id: news.id }), {
@@ -51,104 +74,63 @@ function upload() {
         <PageContainer>
             <PageContainerBlock>
                 <form @submit.prevent="upload()" class="space-y-6">
-                    <div>
-                        <InputLabel for="title_ru" value="Title Ru" />
 
-                        <InputText
-                            id="title_ru"
-                            type="text"
-                            class="mt-1 block w-full"
-                            v-model="form.title_ru"
-                            required
-                        />
+                    <template v-for="(language, index) in languages" v-bind:key="index">
+                        <input type="hidden" v-model="form['news_data_' + language + '_id']"/>
 
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors.title_ru"
-                        />
-                    </div>
-                    <div>
-                        <InputLabel for="title_en" value="Title En" />
+                        <div>
+                            <InputLabel :for="'title_' + language" :value="'Title ' + language.toLowerCase()" />
 
-                        <InputText
-                            id="title_ru"
-                            type="text"
-                            class="mt-1 block w-full"
-                            v-model="form.title_en"
-                            required
-                        />
+                            <InputText
+                                :id="'title_' + language"
+                                type="text"
+                                class="mt-1 block w-full"
+                                v-model="form['title_' + language]"
+                                required
+                            />
 
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors.title_en"
-                        />
-                    </div>
+                            <InputError
+                                class="mt-2"
+                                :message="form.errors['title_' + language]"
+                            />
+                        </div>
 
-                    <div>
-                        <InputLabel for="announce_ru" value="Announce Ru" />
+                        <div>
+                            <InputLabel :for="'announce_' + language" :value="'Announce ' + language.toLowerCase()" />
 
-                        <Editor
-                            class="mt-1 block w-full"
-                            id="body"
-                            v-model="form.announce_ru"
-                            required
-                        >
-                        </Editor>
+                            <Editor
+                                :id="'announce_' + language"
+                                class="mt-1 block w-full"
+                                v-model="form['announce_' + language]"
+                                required
+                            >
+                            </Editor>
 
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors.announce_ru"
-                        />
-                    </div>
-                    <div>
-                        <InputLabel for="announce_en" value="Announce En" />
+                            <InputError
+                                class="mt-2"
+                                :message="form.errors['announce_' + language]"
+                            />
+                        </div>
 
-                        <Editor
-                            class="mt-1 block w-full"
-                            id="body"
-                            v-model="form.announce_en"
-                            required
-                        >
-                        </Editor>
+                        <div>
+                            <InputLabel :for="'text_' + language" :value="'Text ' + language.toLowerCase()" />
 
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors.announce_en"
-                        />
-                    </div>
+                            <Editor
+                                :id="'text_' + language"
+                                class="mt-1 block w-full"
+                                v-model="form['text_' + language]"
+                                required
+                            >
+                            </Editor>
 
-                    <div>
-                        <InputLabel for="text_ru" value="Text Ru" />
+                            <InputError
+                                class="mt-2"
+                                :message="form.errors['text_' + language]"
+                            />
+                        </div>
 
-                        <Editor
-                            class="mt-1 block w-full"
-                            id="body"
-                            v-model="form.text_ru"
-                            required
-                        >
-                        </Editor>
-
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors.text_ru"
-                        />
-                    </div>
-                    <div>
-                        <InputLabel for="text_en" value="Text En" />
-
-                        <Editor
-                            class="mt-1 block w-full"
-                            id="body"
-                            v-model="form.text_en"
-                            required
-                        >
-                        </Editor>
-
-                        <InputError
-                            class="mt-2"
-                            :message="form.errors.text_en"
-                        />
-                    </div>
+                        <hr class="border-black" v-if="index !== languages.length - 1">
+                    </template>
 
                     <div>
                         <InputLabel for="show" value="Show" />

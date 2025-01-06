@@ -2,29 +2,27 @@
 
 namespace App\Transformers;
 
-use App\Models\News;
 use Illuminate\Support\Collection;
+use App\Models\Language;
 
-class NewsTransformer
+class LanguageTransformer
 {
     /**
-     * @param Collection<News> $news
+     * @param Collection<Language> $news
      * @return array<int, array{
      *     id: non-negative-int,
+     *     name: string,
      *     created_at: string,
      *     updated_at: string|null
      * }>
     */
     public function transform(Collection $news): array
     {
-        return $news->map(function (News $item) {
+        return $news->map(function (Language $item) {
             return [
                 'id' => $item->id,
-                'show' => $item->show,
-                'title_ru' => $item->newsData()->Ru()->first()->title,
-                'title_en' => $item->newsData()->En()->first()->title,
+                'name' => $item->name,
                 'created_at' => $item->created_at->format('d.m.Y H:i'),
-                'updated_at' => $item->updated_at?->format('d.m.Y H:i'),
             ];
         })->toArray();
     }

@@ -6,21 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
     public function up(): void
     {
-        if (!Schema::hasTable('promotions')) {
-            Schema::create('promotions', function (Blueprint $table) {
+        if (!Schema::hasTable('languages')) {
+            Schema::create('languages', function (Blueprint $table) {
                 $table->id();
-                $table->string('picture')->nullable()->comment('Путь к картинке');
+                $table->string('name', 2)->unique()->nullable(false);
                 $table->timestamps();
             });
         }
     }
 
-
     public function down(): void
     {
-        Schema::dropIfExists('promotions');
+        Schema::dropIfExists('languages');
     }
 };

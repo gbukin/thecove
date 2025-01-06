@@ -146,3 +146,33 @@ table {
 .p-button {
     width: 6rem;
 }
+
+.p-editor {
+    border: 1px solid;
+    border-radius: var(--p-editor-toolbar-border-radius);
+    border-color: var(--p-inputtext-border-color);
+
+    transition:
+        background var(--p-inputtext-transition-duration),
+        color var(--p-inputtext-transition-duration),
+        border-color var(--p-inputtext-transition-duration),
+        outline-color var(--p-inputtext-transition-duration),
+        box-shadow var(--p-inputtext-transition-duration);
+
+    &:hover {
+        border-color: var(--p-inputtext-hover-border-color) !important;
+    }
+}
+
+.p-editor-toolbar {
+    border: none !important;
+    border-bottom: 1px solid var(--p-inputtext-border-color) !important;
+
+    &:hover {
+        border-color: var(--p-inputtext-hover-border-color) !important;
+    }
+}
+
+.p-editor-content {
+    border: none !important;
+}

@@ -7,11 +7,20 @@ use Inertia\Inertia;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PromotionsController;
 use App\Http\Controllers\PromotionParticipatorController;
+use App\Http\Controllers\LanguageController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::name('language.')->prefix('language')->group(function () {
+        Route::get('/', [LanguageController::class, 'index'])->name('index');
+        Route::get('/data', [LanguageController::class, 'data'])->name('data');
+        Route::get('/create', [LanguageController::class, 'create'])->name('create');
+        Route::post('/store', [LanguageController::class, 'store'])->name('store');
+        Route::delete('/delete', [LanguageController::class, 'destroy'])->name('destroy');
+    });
 
     Route::name('news.')->prefix('news')->group(function () {
         Route::get('/', [NewsController::class, 'index'])->name('index');
