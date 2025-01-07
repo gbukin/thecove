@@ -6,31 +6,34 @@ import PageContainerBlockDivider from '@/Components/PageContainerBlockDivider.vu
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { useForm } from '@inertiajs/vue3';
 import { useToast } from 'primevue';
+import { NewsData, NewsForm } from '@/API/news';
 
 const toast = useToast();
 
 const props = defineProps({
     news: {
         type: Object,
-        required: true
+        required: true,
     },
     languages: {
-        type: Array,
-        required: true
-    }
+        type: Array<string>,
+        required: true,
+    },
 });
 
 const news = props.news;
 
-let fields = {
-    show: Boolean(news.show)
+let fields:NewsForm = {
+    show: Boolean(news.show),
 };
 
-props.news.news_data?.forEach((item) => {
-    fields['news_data_' + item.language + '_id'] = item.id;
-    fields['title_' + item.language] = item.title;
-    fields['announce_' + item.language] = item.announce;
-    fields['text_' + item.language] = item.text;
+props.news.news_data?.forEach((item: NewsData) => {
+    const language: string = item.language;
+
+    fields['news_data_' + language + '_id' as keyof NewsForm] = item.id.toString();
+    fields['title_' + language as keyof NewsForm] = item.title;
+    fields['announce_' + language as keyof NewsForm] = item.announce;
+    fields['text_' + language as keyof NewsForm] = item.text;
 });
 
 const form = useForm(fields);
@@ -41,9 +44,9 @@ function upload() {
             toast.add({
                 severity: 'success',
                 summary: 'Success',
-                detail: 'News updated'
+                detail: 'News updated',
             });
-        }
+        },
     });
 }
 </script>
@@ -56,11 +59,20 @@ function upload() {
 
         <PageContainerBlock>
             <form @submit.prevent="upload()" class="space-y-6">
-                <template v-for="(language, index) in languages" v-bind:key="index">
-                    <input type="hidden" v-model="form['news_data_' + language + '_id']" />
+                <template
+                    v-for="(language, index) in languages"
+                    v-bind:key="index"
+                >
+                    <input
+                        type="hidden"
+                        v-model="form['news_data_' + language + '_id']"
+                    />
 
                     <div>
-                        <InputLabel :for="'title_' + language" :value="'Title ' + language.toLowerCase()" />
+                        <InputLabel
+                            :for="'title_' + language"
+                            :value="'Title ' + language.toLowerCase()"
+                        />
 
                         <InputText
                             :id="'title_' + language"
@@ -77,7 +89,10 @@ function upload() {
                     </div>
 
                     <div>
-                        <InputLabel :for="'announce_' + language" :value="'Announce ' + language.toLowerCase()" />
+                        <InputLabel
+                            :for="'announce_' + language"
+                            :value="'Announce ' + language.toLowerCase()"
+                        />
 
                         <Editor
                             :id="'announce_' + language"
@@ -94,7 +109,10 @@ function upload() {
                     </div>
 
                     <div>
-                        <InputLabel :for="'text_' + language" :value="'Text ' + language.toLowerCase()" />
+                        <InputLabel
+                            :for="'text_' + language"
+                            :value="'Text ' + language.toLowerCase()"
+                        />
 
                         <Editor
                             :id="'text_' + language"
@@ -110,7 +128,10 @@ function upload() {
                         />
                     </div>
 
-                    <hr class="border-black" v-if="index !== languages.length - 1">
+                    <hr
+                        class="border-black"
+                        v-if="index !== languages.length - 1"
+                    />
                 </template>
 
                 <div>
@@ -126,10 +147,7 @@ function upload() {
                 <div class="flex flex-row gap-x-2">
                     <Button type="submit">Update</Button>
                     <a :href="route('news.index')">
-                        <Button type="button" severity="contrast"
-                        >Back
-                        </Button
-                        >
+                        <Button type="button" severity="contrast">Back </Button>
                     </a>
                 </div>
             </form>

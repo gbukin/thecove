@@ -7,7 +7,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { useForm } from '@inertiajs/vue3';
 
 const form = useForm({
-    name: ''
+    name: '',
 });
 </script>
 
@@ -39,10 +39,7 @@ const form = useForm({
                 <div class="flex flex-row gap-x-2">
                     <Button type="submit">Create</Button>
                     <a :href="route('promotions.index')">
-                        <Button type="button" severity="contrast"
-                        >Back
-                        </Button
-                        >
+                        <Button type="button" severity="contrast">Back </Button>
                     </a>
                 </div>
             </form>

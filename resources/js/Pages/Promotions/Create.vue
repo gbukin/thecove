@@ -1,29 +1,29 @@
 <script setup lang="ts">
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
-import PageContainer from '@/Components/PageContainer.vue';
 import PageContainerBlock from '@/Components/PageContainerBlock.vue';
 import PageContainerBlockDivider from '@/Components/PageContainerBlockDivider.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { useForm } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import { PromotionForm } from '@/API/promotion';
 
 const props = defineProps({
     languages: {
-        type: Array,
-        required: true
-    }
+        type: Array<string>,
+        required: true,
+    },
 });
 
-let fields = {
+let fields:PromotionForm = {
     picture: null,
-    start_at: new Date()
+    start_at: new Date(),
 };
 
-props.languages?.forEach((item) => {
-    fields['title_' + item] = '';
-    fields['description_' + item] = '';
-    fields['body_' + item] = '';
+props.languages?.forEach((language: string) => {
+    fields[`title_${language}` as keyof PromotionForm] = '';
+    fields[`description_${language}` as keyof PromotionForm] = '';
+    fields[`body_${language}` as keyof PromotionForm] = '';
 });
 
 const form = useForm(fields);
@@ -42,9 +42,15 @@ const previewSrc = computed(() => {
                 @submit.prevent="form.post(route('promotions.store'))"
                 class="space-y-6"
             >
-                <template v-for="(language, index) in languages" v-bind:key="index">
+                <template
+                    v-for="(language, index) in languages"
+                    v-bind:key="index"
+                >
                     <div>
-                        <InputLabel :for="'title_' + language" :value="'Title ' + language.toLowerCase()" />
+                        <InputLabel
+                            :for="'title_' + language"
+                            :value="'Title ' + language.toLowerCase()"
+                        />
 
                         <InputText
                             :id="'title_' + language"
@@ -61,7 +67,10 @@ const previewSrc = computed(() => {
                     </div>
 
                     <div>
-                        <InputLabel :for="'description_' + language" :value="'Description ' + language.toLowerCase()" />
+                        <InputLabel
+                            :for="'description_' + language"
+                            :value="'Description ' + language.toLowerCase()"
+                        />
 
                         <Editor
                             :id="'description_' + language"
@@ -78,7 +87,10 @@ const previewSrc = computed(() => {
                     </div>
 
                     <div>
-                        <InputLabel :for="'body_' + language" :value="'Body ' + language.toLowerCase()" />
+                        <InputLabel
+                            :for="'body_' + language"
+                            :value="'Body ' + language.toLowerCase()"
+                        />
 
                         <Editor
                             :id="'body_' + language"
@@ -94,7 +106,10 @@ const previewSrc = computed(() => {
                         />
                     </div>
 
-                    <hr class="border-black" v-if="index !== languages.length - 1">
+                    <hr
+                        class="border-black"
+                        v-if="index !== languages.length - 1"
+                    />
                 </template>
 
                 <div>
@@ -119,10 +134,7 @@ const previewSrc = computed(() => {
                         <figcaption>Preview</figcaption>
                     </figure>
 
-                    <InputError
-                        class="mt-2"
-                        :message="form.errors.picture"
-                    />
+                    <InputError class="mt-2" :message="form.errors.picture" />
                 </div>
                 <div>
                     <InputLabel for="start_at" value="Start At" />
@@ -137,10 +149,7 @@ const previewSrc = computed(() => {
                         required
                     />
 
-                    <InputError
-                        class="mt-2"
-                        :message="form.errors.start_at"
-                    />
+                    <InputError class="mt-2" :message="form.errors.start_at" />
                 </div>
 
                 <PageContainerBlockDivider />
@@ -148,10 +157,7 @@ const previewSrc = computed(() => {
                 <div class="flex flex-row gap-x-2">
                     <Button type="submit">Create</Button>
                     <a :href="route('promotions.index')">
-                        <Button type="button" severity="contrast"
-                        >Back
-                        </Button
-                        >
+                        <Button type="button" severity="contrast">Back </Button>
                     </a>
                 </div>
             </form>

@@ -10,6 +10,26 @@ export type Promotion = {
     updated_at?: string;
 };
 
+export type PromotionData = {
+    id: number,
+    promotion_id: number,
+    title: string,
+    description: string,
+    body: string,
+    language: string,
+}
+
+interface PromotionFormStatic {
+    picture: null | Blob | MediaSource;
+    start_at: Date;
+}
+
+interface PromotionFormDynamic {
+    [key: string]: string;
+}
+
+export type PromotionForm = PromotionFormStatic & PromotionFormDynamic
+
 export default function getPromotions() {
     return axios.get('/promotions/data');
 }

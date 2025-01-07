@@ -9,6 +9,15 @@ export type News = {
     updated_at?: string;
 };
 
+export type NewsData = {
+    id: number,
+    news_id: number,
+    title: string,
+    announce: string,
+    text: string,
+    language: string,
+}
+
 interface Search {
     id?: string;
     title_ru?: string;
@@ -16,8 +25,18 @@ interface Search {
     show?: string;
 }
 
+interface NewsFormStatic {
+    show: boolean;
+}
+
+interface NewsFormDynamic {
+    [key: string]: string;
+}
+
+export type NewsForm = NewsFormStatic & NewsFormDynamic;
+
 function convertSearchShowToInt(
-    searchShow: string | undefined,
+    searchShow: string | undefined
 ): number | undefined {
     if (searchShow === 'Yes') {
         return 1;

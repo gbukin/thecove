@@ -7,43 +7,46 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { useForm } from '@inertiajs/vue3';
 import { useToast } from 'primevue';
 import { computed, ref } from 'vue';
+import { PromotionData, PromotionForm } from '@/API/promotion';
 
 const toast = useToast();
 
 const props = defineProps({
     promotion: {
         type: Object,
-        required: true
+        required: true,
     },
     currentPicturePath: {
         type: String,
-        required: true
+        required: true,
     },
     languages: {
-        type: Array,
-        required: true
-    }
+        type: Array<string>,
+        required: true,
+    },
 });
 
 const currentPicture = ref(props.currentPicturePath);
 const promotion = props.promotion;
 
-let fields = {
+let fields:PromotionForm = {
     picture: null,
-    start_at: new Date(promotion.start_at)
+    start_at: new Date(promotion.start_at),
 };
 
-props.promotion.promotion_data?.forEach((item) => {
-    fields['promotion_data_' + item.language + '_id'] = item.id;
-    fields['title_' + item.language] = item.title;
-    fields['description_' + item.language] = item.description;
-    fields['body_' + item.language] = item.body;
+props.promotion.promotion_data?.forEach((item: PromotionData) => {
+    const language: string = item.language;
+
+    fields[`promotion_data_${language}_id` as keyof PromotionForm] = item.id.toString();
+    fields[`title_${language}` as keyof PromotionForm] = item.title;
+    fields[`description_${language}` as keyof PromotionForm] = item.description;
+    fields[`body_${language}` as keyof PromotionForm] = item.body;
 });
 
 const form = useForm(fields);
 
 const previewSrc = computed(() => {
-    return form.picture ? URL.createObjectURL(form.picture) : '';
+    return form.picture ? URL.createObjectURL(form.picture) : null;
 });
 
 function upload() {
@@ -56,9 +59,9 @@ function upload() {
             toast.add({
                 severity: 'success',
                 summary: 'Success',
-                detail: 'Promotion updated'
+                detail: 'Promotion updated',
             });
-        }
+        },
     });
 }
 </script>
@@ -71,11 +74,20 @@ function upload() {
 
         <PageContainerBlock>
             <form @submit.prevent="upload()" class="space-y-6">
-                <template v-for="(language, index) in languages" v-bind:key="index">
-                    <input type="hidden" v-model="form['news_data_' + language + '_id']" />
+                <template
+                    v-for="(language, index) in languages"
+                    v-bind:key="index"
+                >
+                    <input
+                        type="hidden"
+                        v-model="form['news_data_' + language + '_id']"
+                    />
 
                     <div>
-                        <InputLabel :for="'title_' + language" :value="'Title ' + language.toLowerCase()" />
+                        <InputLabel
+                            :for="'title_' + language"
+                            :value="'Title ' + language.toLowerCase()"
+                        />
 
                         <InputText
                             :id="'title_' + language"
@@ -92,7 +104,10 @@ function upload() {
                     </div>
 
                     <div>
-                        <InputLabel :for="'description_' + language" :value="'Announce ' + language.toLowerCase()" />
+                        <InputLabel
+                            :for="'description_' + language"
+                            :value="'Announce ' + language.toLowerCase()"
+                        />
 
                         <Editor
                             :id="'description_' + language"
@@ -109,7 +124,10 @@ function upload() {
                     </div>
 
                     <div>
-                        <InputLabel :for="'body_' + language" :value="'Text ' + language.toLowerCase()" />
+                        <InputLabel
+                            :for="'body_' + language"
+                            :value="'Text ' + language.toLowerCase()"
+                        />
 
                         <Editor
                             :id="'body_' + language"
@@ -125,17 +143,17 @@ function upload() {
                         />
                     </div>
 
-                    <hr class="border-black" v-if="index !== languages.length - 1">
+                    <hr
+                        class="border-black"
+                        v-if="index !== languages.length - 1"
+                    />
                 </template>
 
                 <div>
                     <InputLabel for="picture" value="Picture" />
 
                     <figure>
-                        <img
-                            :src="currentPicture"
-                            class="mx-auto h-64 w-64"
-                        />
+                        <img :src="currentPicture" class="mx-auto h-64 w-64" />
                         <figcaption>Current</figcaption>
                     </figure>
 
@@ -157,10 +175,7 @@ function upload() {
                         <figcaption>Preview</figcaption>
                     </figure>
 
-                    <InputError
-                        class="mt-2"
-                        :message="form.errors.picture"
-                    />
+                    <InputError class="mt-2" :message="form.errors.picture" />
                 </div>
                 <div>
                     <InputLabel for="start_at" value="Start At" />
@@ -175,10 +190,7 @@ function upload() {
                         required
                     />
 
-                    <InputError
-                        class="mt-2"
-                        :message="form.errors.start_at"
-                    />
+                    <InputError class="mt-2" :message="form.errors.start_at" />
                 </div>
 
                 <PageContainerBlockDivider />
@@ -186,10 +198,7 @@ function upload() {
                 <div class="flex flex-row gap-x-2">
                     <Button type="submit">Update</Button>
                     <a :href="route('promotions.index')">
-                        <Button type="button" severity="contrast"
-                        >Back
-                        </Button
-                        >
+                        <Button type="button" severity="contrast">Back </Button>
                     </a>
                 </div>
             </form>
