@@ -3,6 +3,7 @@
     "type": "module",
     "scripts": {
         "build": "vue-tsc && vite build",
+        "build-no-check": "vite build",
         "vue-check": "vue-tsc",
         "dev": "vite",
         "dev-silent": "vite -l silent",
