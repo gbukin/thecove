@@ -138,7 +138,7 @@ onMounted(() => sync());
                         <td>{{ row.title_ru }}</td>
                         <td>{{ row.title_en }}</td>
                         <td>{{ row.show ? 'Yes' : 'No' }}</td>
-                        <td>{{ row.date }}</td>
+                        <td>{{ row.created_at }}</td>
                         <td>{{ row.updated_at }}</td>
                         <td>
                             <NavLink :href="route('news.edit', { id: row.id })">

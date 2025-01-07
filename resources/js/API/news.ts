@@ -5,7 +5,7 @@ export type News = {
     title_ru: string;
     title_en: string;
     show: boolean;
-    date: string;
+    created_at: string;
     updated_at?: string;
 };
 
