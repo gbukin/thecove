@@ -29,21 +29,25 @@ class Promotion extends Model
         // Validation dynamic data
         foreach ($languages as $language) {
             $title = $request->get('title_' . $language);
-            $announce = $request->get('description_' . $language);
-            $text = $request->get('body_' . $language);
+            $description = $request->get('description_' . $language);
+            $body = $request->get('body_' . $language);
+
+            if (empty($title) && empty($description) && empty($body)) {
+                continue;
+            }
 
             $errors = [];
 
             if (empty($title) || strlen($title) > 255) {
-                $errors['title_' . $language] = 'title_' . $language . ' empty or has more than 255 characters';
+                $errors['title_' . $language] = '"Title ' . $language . '" empty or has more than 255 characters';
             }
 
-            if (empty($announce)) {
-                $errors['announce_' . $language] = 'description_' . $language . ' is required';
+            if (empty($description)) {
+                $errors['description_' . $language] = '"Description ' . $language . '" is required';
             }
 
-            if (empty($text)) {
-                $errors['text_' . $language] = 'body_' . $language . ' is required';
+            if (empty($body)) {
+                $errors['body_' . $language] = '"Body ' . $language . '" is required';
             }
         }
 

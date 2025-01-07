@@ -49,6 +49,10 @@ class PromotionsController extends Controller
             $description = $request->get('description_' . $language);
             $body = $request->get('body_' . $language);
 
+            if (empty($title) && empty($description) && empty($body)) {
+                continue;
+            }
+
             PromotionData::create([
                 'title' => $title,
                 'description' => $description,
@@ -77,16 +81,22 @@ class PromotionsController extends Controller
         $languages = Language::getLanguagesNames();
 
         foreach ($languages as $language) {
-            $newsDataId = $request->get('promotion_data_' . $language . '_id');
+            $promotionDataId = $request->get('promotion_data_' . $language . '_id');
             $title = $request->get('title_' . $language);
             $description = $request->get('description_' . $language);
             $body = $request->get('body_' . $language);
 
-            PromotionData::where(['id' => $newsDataId])->update([
-                'title' => $title,
-                'description' => $description,
-                'body' => $body,
-            ]);
+            PromotionData::where(['id' => $promotionDataId])->updateOrCreate(
+                [
+                    'promotion_id' => $promotion->id,
+                    'language' => $language
+                ],
+                [
+                    'title' => $title,
+                    'description' => $description,
+                    'body' => $body,
+                ]
+            );
         }
 
         $promotion->update($request->validated());

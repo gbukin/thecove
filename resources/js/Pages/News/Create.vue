@@ -51,7 +51,6 @@ const form = useForm(fields);
                             type="text"
                             class="mt-1 block w-full"
                             v-model="form['title_' + language]"
-                            required
                         />
 
                         <InputError
@@ -70,7 +69,6 @@ const form = useForm(fields);
                             :id="'announce_' + language"
                             class="mt-1 block w-full"
                             v-model="form['announce_' + language]"
-                            required
                         >
                         </Editor>
 
@@ -90,7 +88,6 @@ const form = useForm(fields);
                             :id="'text_' + language"
                             class="mt-1 block w-full"
                             v-model="form['text_' + language]"
-                            required
                         >
                         </Editor>
 

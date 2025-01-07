@@ -39,18 +39,22 @@ class News extends Model
             $announce = $request->get('announce_' . $language);
             $text = $request->get('text_' . $language);
 
+            if (empty($title) && empty($announce) && empty($text)) {
+                continue;
+            }
+
             $errors = [];
 
             if (empty($title) || strlen($title) > 255) {
-                $errors['title_' . $language] = 'title_' . $language . ' empty or has more than 255 characters';
+                $errors['title_' . $language] = '"Title ' . $language . '" empty or has more than 255 characters';
             }
 
             if (empty($announce)) {
-                $errors['announce_' . $language] = 'announce_' . $language . ' is required';
+                $errors['announce_' . $language] = '"Announce ' . $language . '" is required';
             }
 
             if (empty($text)) {
-                $errors['text_' . $language] = 'text_' . $language . ' is required';
+                $errors['text_' . $language] = '"Text ' . $language . '" is required';
             }
         }
 

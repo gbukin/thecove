@@ -39,6 +39,7 @@ props.news.news_data?.forEach((item: NewsData) => {
 const form = useForm(fields);
 
 function upload() {
+    console.log(form)
     form.post(route('news.update', { id: news.id }), {
         onSuccess: () => {
             toast.add({
@@ -79,7 +80,6 @@ function upload() {
                             type="text"
                             class="mt-1 block w-full"
                             v-model="form['title_' + language]"
-                            required
                         />
 
                         <InputError
@@ -98,7 +98,6 @@ function upload() {
                             :id="'announce_' + language"
                             class="mt-1 block w-full"
                             v-model="form['announce_' + language]"
-                            required
                         >
                         </Editor>
 
@@ -118,7 +117,6 @@ function upload() {
                             :id="'text_' + language"
                             class="mt-1 block w-full"
                             v-model="form['text_' + language]"
-                            required
                         >
                         </Editor>
 
@@ -137,7 +135,7 @@ function upload() {
                 <div>
                     <InputLabel for="show" value="Show" />
 
-                    <Checkbox class="mt-2" v-model="form.show" binary />
+                    <Checkbox class="mt-2" id="show" v-model="form.show" binary />
 
                     <InputError class="mt-2" :message="form.errors.show" />
                 </div>

@@ -21,15 +21,24 @@ class NewsController extends Controller
 
     public function data(Request $request)
     {
-        $columnMapper = fn(string $cell) => match ($cell) {
-            'ID' => 'id',
-            'Title' => 'title',
-        };
+        $news = News::query();
 
-        $news = News::orderBy(
-            $columnMapper($request->query('sortColumn')),
-            $request->query('sortDirection'),
-        );
+        if ($rawSortColumn = $request->query('sortColumn')) {
+            $sortDirection = $request->query('sortDirection');
+
+            if ($rawSortColumn === 'ID') {
+                $news = $news->orderBy('id', $sortDirection);
+            } else {
+                $sortColumnPart = explode(' ', strtolower($rawSortColumn));
+                $sortColumn = $sortColumnPart[0];
+                $sortColumnLanguage = $sortColumnPart[1];
+                $news = $news->with([
+                    'newsData' => fn ($query) => $query->orderBy($sortColumn, $sortDirection)
+                        ->where('language', $sortColumnLanguage)
+                ]);
+            }
+
+        }
 
         $search = $request->query('search');
 
@@ -76,6 +85,10 @@ class NewsController extends Controller
             $announce = $request->get('announce_' . $language);
             $text = $request->get('text_' . $language);
 
+            if (empty($title) && empty($announce) && empty($text)) {
+                continue;
+            }
+
             NewsData::create([
                 'title' => $title,
                 'announce' => $announce,
@@ -102,15 +115,22 @@ class NewsController extends Controller
 
         foreach ($languages as $language) {
             $newsDataId = $request->get('news_data_' . $language . '_id');
-            $title = $request->get('title_' . $language);
-            $announce = $request->get('announce_' . $language);
-            $text = $request->get('text_' . $language);
+            $title = $request->get('title_' . $language) ?? '';
+            $announce = $request->get('announce_' . $language) ?? '';
+            $text = $request->get('text_' . $language) ?? '';
 
-            NewsData::where(['id' => $newsDataId])->update([
-                'title' => $title,
-                'announce' => $announce,
-                'text' => $text,
-            ]);
+            NewsData::where(['id' => $newsDataId])->updateOrCreate(
+                [
+                    'news_id' => $news->id,
+                    'language' => $language
+                ],
+                [
+                    'news_id' => $news->id,
+                    'title' => $title,
+                    'announce' => $announce,
+                    'text' => $text,
+                ]
+            );
         }
 
         $news->update($request->validated());
