@@ -9,7 +9,6 @@ use Redirect;
 use App\Http\Requests\PromotionRequest;
 use App\Services\PromotionService;
 use App\Models\Language;
-use App\Models\NewsData;
 use App\Models\PromotionData;
 
 class PromotionsController extends Controller
@@ -45,9 +44,9 @@ class PromotionsController extends Controller
         $promotion->validateData($request);
 
         foreach ($languages as $language) {
-            $title = $request->get('title_' . $language);
-            $description = $request->get('description_' . $language);
-            $body = $request->get('body_' . $language);
+            $title = $request->get('title_' . $language) ?? '';
+            $description = $request->get('description_' . $language) ?? '';
+            $body = $request->get('body_' . $language) ?? '';
 
             if (empty($title) && empty($description) && empty($body)) {
                 continue;
@@ -82,9 +81,9 @@ class PromotionsController extends Controller
 
         foreach ($languages as $language) {
             $promotionDataId = $request->get('promotion_data_' . $language . '_id');
-            $title = $request->get('title_' . $language);
-            $description = $request->get('description_' . $language);
-            $body = $request->get('body_' . $language);
+            $title = $request->get('title_' . $language) ?? '';
+            $description = $request->get('description_' . $language) ?? '';
+            $body = $request->get('body_' . $language) ?? '';
 
             PromotionData::where(['id' => $promotionDataId])->updateOrCreate(
                 [

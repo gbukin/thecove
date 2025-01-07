@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\NewsRequest;
 use Illuminate\Http\Request;
 use App\Models\Language;
-use Illuminate\Validation\ValidationException;
 use App\Models\NewsData;
 
 class NewsController extends Controller
@@ -81,13 +80,9 @@ class NewsController extends Controller
         $news->validateData($request);
 
         foreach ($languages as $language) {
-            $title = $request->get('title_' . $language);
-            $announce = $request->get('announce_' . $language);
-            $text = $request->get('text_' . $language);
-
-            if (empty($title) && empty($announce) && empty($text)) {
-                continue;
-            }
+            $title = $request->get('title_' . $language) ?? '';
+            $announce = $request->get('announce_' . $language) ?? '';
+            $text = $request->get('text_' . $language) ?? '';
 
             NewsData::create([
                 'title' => $title,
