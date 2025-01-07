@@ -36,9 +36,8 @@ onMounted(() => {
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Language</th>
+                        <th>Title Ru</th>
+                        <th>Title En</th>
                         <th>Picture</th>
                         <th>Created</th>
                         <th>Updated</th>
@@ -48,14 +47,14 @@ onMounted(() => {
                 <tbody>
                     <tr v-for="(row, index) in rows" v-bind:key="index">
                         <td>{{ row.id }}</td>
-                        <td>{{ row.title }}</td>
-                        <td>{{ row.description }}</td>
-                        <td>{{ row.language }}</td>
+                        <td>{{ row.title_ru }}</td>
+                        <td>{{ row.title_en }}</td>
                         <td class="flex items-center justify-center">
                             <img
                                 :src="row.picture"
                                 class="size-16"
                                 v-if="row.picture"
+                                alt="media"
                             />
                             <IconNoImage class="size-16" v-else />
                         </td>

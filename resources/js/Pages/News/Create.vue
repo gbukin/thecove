@@ -31,88 +31,86 @@ const form = useForm(fields);
     <AuthenticatedLayout>
         <template #header> Create News</template>
 
-        <PageContainer>
-            <PageContainerBlock>
-                <form
-                    @submit.prevent="form.post(route('news.store'))"
-                    class="space-y-6"
-                >
-                    <template v-for="(language, index) in languages" v-bind:key="index">
-                        <div>
-                            <InputLabel :for="'title_' + language" :value="'Title ' + language.toLowerCase()" />
+        <PageContainerBlock>
+            <form
+                @submit.prevent="form.post(route('news.store'))"
+                class="space-y-6"
+            >
+                <template v-for="(language, index) in languages" v-bind:key="index">
+                    <div>
+                        <InputLabel :for="'title_' + language" :value="'Title ' + language.toLowerCase()" />
 
-                            <InputText
-                                :id="'title_' + language"
-                                type="text"
-                                class="mt-1 block w-full"
-                                v-model="form['title_' + language]"
-                                required
-                            />
+                        <InputText
+                            :id="'title_' + language"
+                            type="text"
+                            class="mt-1 block w-full"
+                            v-model="form['title_' + language]"
+                            required
+                        />
 
-                            <InputError
-                                class="mt-2"
-                                :message="form.errors['title_' + language]"
-                            />
-                        </div>
-
-                        <div>
-                            <InputLabel :for="'announce_' + language" :value="'Announce ' + language.toLowerCase()" />
-
-                            <Editor
-                                :id="'announce_' + language"
-                                class="mt-1 block w-full"
-                                v-model="form['announce_' + language]"
-                                required
-                            >
-                            </Editor>
-
-                            <InputError
-                                class="mt-2"
-                                :message="form.errors['announce_' + language]"
-                            />
-                        </div>
-
-                        <div>
-                            <InputLabel :for="'text_' + language" :value="'Text ' + language.toLowerCase()" />
-
-                            <Editor
-                                :id="'text_' + language"
-                                class="mt-1 block w-full"
-                                v-model="form['text_' + language]"
-                                required
-                            >
-                            </Editor>
-
-                            <InputError
-                                class="mt-2"
-                                :message="form.errors['text_' + language]"
-                            />
-                        </div>
-
-                        <hr class="border-black" v-if="index !== languages.length - 1">
-                    </template>
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors['title_' + language]"
+                        />
+                    </div>
 
                     <div>
-                        <InputLabel for="show" value="Show" />
+                        <InputLabel :for="'announce_' + language" :value="'Announce ' + language.toLowerCase()" />
 
-                        <Checkbox class="mt-2" v-model="form.show" binary />
+                        <Editor
+                            :id="'announce_' + language"
+                            class="mt-1 block w-full"
+                            v-model="form['announce_' + language]"
+                            required
+                        >
+                        </Editor>
 
-                        <InputError class="mt-2" :message="form.errors.show" />
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors['announce_' + language]"
+                        />
                     </div>
 
-                    <PageContainerBlockDivider />
+                    <div>
+                        <InputLabel :for="'text_' + language" :value="'Text ' + language.toLowerCase()" />
 
-                    <div class="flex flex-row gap-x-2">
-                        <Button type="submit">Create</Button>
-                        <a :href="route('news.index')">
-                            <Button type="button" severity="contrast"
-                            >Back
-                            </Button
-                            >
-                        </a>
+                        <Editor
+                            :id="'text_' + language"
+                            class="mt-1 block w-full"
+                            v-model="form['text_' + language]"
+                            required
+                        >
+                        </Editor>
+
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors['text_' + language]"
+                        />
                     </div>
-                </form>
-            </PageContainerBlock>
-        </PageContainer>
+
+                    <hr class="border-black" v-if="index !== languages.length - 1">
+                </template>
+
+                <div>
+                    <InputLabel for="show" value="Show" />
+
+                    <Checkbox class="mt-2" v-model="form.show" binary />
+
+                    <InputError class="mt-2" :message="form.errors.show" />
+                </div>
+
+                <PageContainerBlockDivider />
+
+                <div class="flex flex-row gap-x-2">
+                    <Button type="submit">Create</Button>
+                    <a :href="route('news.index')">
+                        <Button type="button" severity="contrast"
+                        >Back
+                        </Button
+                        >
+                    </a>
+                </div>
+            </form>
+        </PageContainerBlock>
     </AuthenticatedLayout>
 </template>

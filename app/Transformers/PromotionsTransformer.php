@@ -11,10 +11,8 @@ class PromotionsTransformer
      * @param Collection<Promotion> $news
      * @return array<int, array{
      *     id: int,
-     *     title: string,
-     *     description: string,
-     *     body: string,
-     *     language: string,
+     *     title_ru: string,
+     *     title_en: string,
      *     picture: string|null,
      *     created_at: string,
      *     updated_at: string|null
@@ -25,9 +23,8 @@ class PromotionsTransformer
         return $news->map(function (Promotion $item) {
             return [
                 'id' => $item->id,
-                'title' => $item->title,
-                'description' => $item->description,
-                'language' => $item->language,
+                'title_ru' => $item->promotionData()->Ru()->first()?->title ?? '',
+                'title_en' => $item->promotionData()->En()->first()?->title ?? '',
                 'picture' => $item->picture,
                 'created_at' => $item->created_at->format('d.m.Y H:i'),
                 'updated_at' => $item->updated_at?->format('d.m.Y H:i'),

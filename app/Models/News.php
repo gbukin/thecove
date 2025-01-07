@@ -26,7 +26,10 @@ class News extends Model
         return $this->hasMany(NewsData::class);
     }
 
-    public function validateData(NewsRequest $request)
+    /**
+     * @throws ValidationException
+    */
+    public function validateData(NewsRequest $request): void
     {
         $languages = Language::getLanguagesNames();
 
