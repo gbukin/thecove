@@ -14,24 +14,24 @@ const toast = useToast();
 const props = defineProps({
     promotion: {
         type: Object,
-        required: true,
+        required: true
     },
     currentPicturePath: {
         type: String,
-        required: true,
+        required: true
     },
     languages: {
         type: Array<string>,
-        required: true,
-    },
+        required: true
+    }
 });
 
 const currentPicture = ref(props.currentPicturePath);
 const promotion = props.promotion;
 
-let fields:PromotionForm = {
+let fields: PromotionForm = {
     picture: null,
-    start_at: new Date(promotion.start_at),
+    start_at: new Date(promotion.start_at)
 };
 
 props.promotion.promotion_data?.forEach((item: PromotionData) => {
@@ -59,9 +59,9 @@ function upload() {
             toast.add({
                 severity: 'success',
                 summary: 'Success',
-                detail: 'Promotion updated',
+                detail: 'Promotion updated'
             });
-        },
+        }
     });
 }
 </script>
@@ -152,8 +152,12 @@ function upload() {
                 <div>
                     <InputLabel for="picture" value="Picture" />
 
-                    <figure>
-                        <img :src="currentPicture" class="mx-auto h-64 w-64" />
+                    <figure v-if="currentPicture">
+                        <img
+                            :src="currentPicture"
+                            class="mx-auto h-64 w-64"
+                            alt="current"
+                        />
                         <figcaption>Current</figcaption>
                     </figure>
 
@@ -171,6 +175,7 @@ function upload() {
                             :src="previewSrc"
                             class="mx-auto h-64 w-64"
                             v-if="previewSrc"
+                            alt="new"
                         />
                         <figcaption>Preview</figcaption>
                     </figure>
@@ -198,7 +203,7 @@ function upload() {
                 <div class="flex flex-row gap-x-2">
                     <Button type="submit">Update</Button>
                     <a :href="route('promotions.index')">
-                        <Button type="button" severity="contrast">Back </Button>
+                        <Button type="button" severity="contrast">Back</Button>
                     </a>
                 </div>
             </form>

@@ -6,6 +6,7 @@ import PageContainerBlockDivider from '@/Components/PageContainerBlockDivider.vu
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { useForm } from '@inertiajs/vue3';
 import { NewsForm } from '@/API/news';
+import { computed } from 'vue';
 
 const props = defineProps({
     languages: {
@@ -15,6 +16,7 @@ const props = defineProps({
 });
 
 let fields:NewsForm = {
+    picture: null,
     show: false,
 };
 
@@ -25,6 +27,10 @@ props.languages?.forEach((language: string) => {
 });
 
 const form = useForm(fields);
+
+const previewSrc = computed(() => {
+    return form.picture ? URL.createObjectURL(form.picture) : '';
+});
 </script>
 
 <template>
@@ -102,6 +108,31 @@ const form = useForm(fields);
                         v-if="index !== languages.length - 1"
                     />
                 </template>
+
+                <div>
+                    <InputLabel for="picture" value="Picture" />
+
+                    <FileUpload
+                        id="language"
+                        mode="basic"
+                        severity="secondary"
+                        class="p-button-outlined"
+                        accept="image/*"
+                        @select="form.picture = $event.files[0]"
+                    />
+
+                    <figure>
+                        <img
+                            :src="previewSrc"
+                            class="mx-auto h-64 w-64"
+                            alt="uploaded media"
+                            v-if="previewSrc"
+                        />
+                        <figcaption>Preview</figcaption>
+                    </figure>
+
+                    <InputError class="mt-2" :message="form.errors.picture" />
+                </div>
 
                 <div>
                     <InputLabel for="show" value="Show" />

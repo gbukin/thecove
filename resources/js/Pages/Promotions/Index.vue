@@ -38,7 +38,7 @@ onMounted(() => {
                         <th>ID</th>
                         <th>Title Ru</th>
                         <th>Title En</th>
-                        <th>Picture</th>
+                        <th class="text-center">Picture</th>
                         <th>Created</th>
                         <th>Updated</th>
                         <th></th>

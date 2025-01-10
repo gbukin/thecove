@@ -7,6 +7,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { useForm } from '@inertiajs/vue3';
 import { useToast } from 'primevue';
 import { NewsData, NewsForm } from '@/API/news';
+import { computed, ref } from 'vue';
 
 const toast = useToast();
 
@@ -15,15 +16,21 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    currentPicturePath: {
+        type: String,
+        required: true
+    },
     languages: {
         type: Array<string>,
         required: true,
     },
 });
 
+const currentPicture = ref(props.currentPicturePath);
 const news = props.news;
 
 let fields:NewsForm = {
+    picture: null,
     show: Boolean(news.show),
 };
 
@@ -38,10 +45,18 @@ props.news.news_data?.forEach((item: NewsData) => {
 
 const form = useForm(fields);
 
+const previewSrc = computed(() => {
+    return form.picture ? URL.createObjectURL(form.picture) : null;
+});
+
 function upload() {
     console.log(form)
     form.post(route('news.update', { id: news.id }), {
         onSuccess: () => {
+            if (form.picture) {
+                currentPicture.value = URL.createObjectURL(form.picture);
+                form.reset();
+            }
             toast.add({
                 severity: 'success',
                 summary: 'Success',
@@ -131,6 +146,40 @@ function upload() {
                         v-if="index !== languages.length - 1"
                     />
                 </template>
+
+                <div>
+                    <InputLabel for="picture" value="Picture" />
+
+                    <figure v-if="currentPicture">
+                        <img
+                            :src="currentPicture"
+                            class="mx-auto h-64 w-64"
+                            alt="current"
+                        />
+                        <figcaption>Current</figcaption>
+                    </figure>
+
+                    <FileUpload
+                        id="language"
+                        mode="basic"
+                        severity="secondary"
+                        class="p-button-outlined"
+                        accept="image/*"
+                        @select="form.picture = $event.files[0]"
+                    />
+
+                    <figure>
+                        <img
+                            :src="previewSrc"
+                            class="mx-auto h-64 w-64"
+                            v-if="previewSrc"
+                            alt="new"
+                        />
+                        <figcaption>Preview</figcaption>
+                    </figure>
+
+                    <InputError class="mt-2" :message="form.errors.picture" />
+                </div>
 
                 <div>
                     <InputLabel for="show" value="Show" />

@@ -26,6 +26,7 @@ interface Search {
 }
 
 interface NewsFormStatic {
+    picture: null | Blob | MediaSource;
     show: boolean;
 }
 

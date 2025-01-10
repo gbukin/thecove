@@ -10,6 +10,7 @@ use App\Http\Requests\NewsRequest;
 use Illuminate\Http\Request;
 use App\Models\Language;
 use App\Models\NewsData;
+use App\Services\NewsService;
 
 class NewsController extends Controller
 {
@@ -75,6 +76,10 @@ class NewsController extends Controller
     {
         $news = News::create($request->validated());
 
+        if ($picture = $request->file('picture')) {
+            NewsService::saveFile($news, $picture);
+        }
+
         $languages = Language::getLanguagesNames();
 
         $news->validateData($request);
@@ -99,7 +104,11 @@ class NewsController extends Controller
     public function edit(News $news)
     {
         return Inertia::render('News/Edit')
-            ->with(['news' => $news->load('newsData'), 'languages' => Language::getLanguagesNames()]);
+            ->with([
+                'news' => $news->load('newsData'),
+                'currentPicturePath' => $news->picture,
+                'languages' => Language::getLanguagesNames()
+            ]);
     }
 
     public function update(NewsRequest $request, News $news)
@@ -129,6 +138,10 @@ class NewsController extends Controller
         }
 
         $news->update($request->validated());
+
+        if ($picture = $request->file('picture')) {
+            NewsService::saveFile($news, $picture);
+        }
 
         return Redirect::back();
     }

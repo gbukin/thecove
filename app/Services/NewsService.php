@@ -4,13 +4,14 @@ namespace App\Services;
 
 use App\Models\Promotion;
 use Illuminate\Http\UploadedFile;
+use App\Models\News;
 
-class PromotionService
+class NewsService
 {
-    const STORAGE_ROOT_PATH = 'promotions/';
-    public static function saveFile(Promotion $promotion, UploadedFile $file): void
+    const STORAGE_ROOT_PATH = 'news/';
+    public static function saveFile(News $news, UploadedFile $file): void
     {
-        $filename = $promotion->id . '.' . $file->getClientOriginalExtension();
+        $filename = $news->id . '.' . $file->getClientOriginalExtension();
 
         $storage = \Storage::disk('public');
 
@@ -20,7 +21,7 @@ class PromotionService
 
         $storage->putFileAs(self::STORAGE_ROOT_PATH, $file, $filename);
 
-        $promotion->picture ='/storage/' . self::STORAGE_ROOT_PATH . $filename;
-        $promotion->save();
+        $news->picture ='/storage/' . self::STORAGE_ROOT_PATH . $filename;
+        $news->save();
     }
 }
