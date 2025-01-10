@@ -108,7 +108,7 @@ function upload() {
                     <div>
                         <InputLabel
                             :for="'description_' + language"
-                            :value="'Announce ' + language.toLowerCase()"
+                            :value="'Description ' + language.toLowerCase()"
                         />
 
                         <Editor

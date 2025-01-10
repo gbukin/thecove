@@ -45,10 +45,6 @@ class Promotion extends Model
             if (empty($description)) {
                 $errors['description_' . $language] = '"Description ' . $language . '" is required';
             }
-
-            if (empty($body)) {
-                $errors['body_' . $language] = '"Body ' . $language . '" is required';
-            }
         }
 
         if (!empty($errors)) {
