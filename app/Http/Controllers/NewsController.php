@@ -28,10 +28,10 @@ class NewsController extends Controller
 
         foreach ($languages as $language) {
             $alias = 'news_data_' . $language;
-            $news = $news->join('news_data AS ' . $alias, function ($join) use ($language, $alias) {
+            $news = $news->leftJoin('news_data AS ' . $alias, function ($join) use ($language, $alias) {
                 $join->on('news.id', '=', $alias . '.news_id')
                     ->on($alias . '.language', '=', DB::raw("'$language'"));
-            }, where: true);
+            });
         }
 
         if ($rawSortColumn = $request->query('sortColumn')) {
