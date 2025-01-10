@@ -26,8 +26,8 @@ class PromotionsTransformer
                 'title_ru' => $item->promotionData()->Ru()->first()?->title ?? '',
                 'title_en' => $item->promotionData()->En()->first()?->title ?? '',
                 'picture' => $item->picture,
-                'created_at' => $item->created_at->format('d.m.Y H:i'),
-                'updated_at' => $item->updated_at?->format('d.m.Y H:i'),
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
             ];
         })->toArray();
     }

@@ -7,10 +7,22 @@ import NavLink from '@/Components/NavLink.vue';
 import PageContainerBlock from '@/Components/PageContainerBlock.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { onMounted, ref } from 'vue';
+import { Link } from '@inertiajs/vue3';
+import IconDelete from '@/Components/Icons/IconDelete.vue';
+import { dateToString } from '@/date-helper';
 
 const rows = ref<Promotion[]>([]);
 
 const pending = ref(false);
+
+function removeFromResultSet(id: number) {
+    for (let i = 0; i < rows.value.length; i++) {
+        if (rows.value[i].id === id) {
+            rows.value.splice(i, 1)
+            break
+        }
+    }
+}
 
 onMounted(() => {
     pending.value = true;
@@ -42,6 +54,7 @@ onMounted(() => {
                         <th>Created</th>
                         <th>Updated</th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -58,14 +71,24 @@ onMounted(() => {
                             />
                             <IconNoImage class="size-16" v-else />
                         </td>
-                        <td>{{ row.created_at }}</td>
-                        <td>{{ row.updated_at }}</td>
+                        <td>{{ dateToString(new Date(row.created_at)) }}</td>
+                        <td>{{ dateToString(new Date(row.updated_at)) }}</td>
                         <td>
                             <NavLink
                                 :href="route('promotions.edit', { id: row.id })"
                             >
                                 <IconPencil />
                             </NavLink>
+                        </td>
+                        <td>
+                            <Link
+                                :href="route('promotions.delete', {id: row.id})"
+                                @click="removeFromResultSet(row.id)"
+                                method="delete"
+                                as="button"
+                            >
+                                <IconDelete/>
+                            </Link>
                         </td>
                     </tr>
                     <tr v-if="!rows.length">

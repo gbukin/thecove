@@ -50,6 +50,8 @@ const previewSrc = computed(() => {
 });
 
 function upload() {
+    form.start_at.setHours(12)
+
     form.post(route('promotions.update', { id: promotion.id }), {
         onSuccess: () => {
             if (form.picture) {
@@ -133,7 +135,6 @@ function upload() {
                             :id="'body_' + language"
                             class="mt-1 block w-full"
                             v-model="form['body_' + language]"
-                            required
                         >
                         </Editor>
 
@@ -192,6 +193,7 @@ function upload() {
                         date-format="dd/mm/yy"
                         :min-date="new Date()"
                         :manual-input="false"
+                        @change="console.log('123')"
                         required
                     />
 

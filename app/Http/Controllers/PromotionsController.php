@@ -106,4 +106,12 @@ class PromotionsController extends Controller
 
         return Redirect::back();
     }
+
+    public function destroy(Promotion $promotion)
+    {
+        $promotion->promotionData()->delete();
+        $promotion->delete();
+
+        return Redirect::back();
+    }
 }

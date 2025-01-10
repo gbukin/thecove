@@ -5,7 +5,7 @@ import PageContainerBlock from '@/Components/PageContainerBlock.vue';
 import PageContainerBlockDivider from '@/Components/PageContainerBlockDivider.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { useForm } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { PromotionForm } from '@/API/promotion';
 
 const props = defineProps({
@@ -96,7 +96,6 @@ const previewSrc = computed(() => {
                             :id="'body_' + language"
                             class="mt-1 block w-full"
                             v-model="form['body_' + language]"
-                            required
                         >
                         </Editor>
 

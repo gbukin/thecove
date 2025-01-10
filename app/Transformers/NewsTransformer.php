@@ -4,6 +4,7 @@ namespace App\Transformers;
 
 use App\Models\News;
 use Illuminate\Support\Collection;
+use App\Models\Language;
 
 class NewsTransformer
 {
@@ -26,8 +27,8 @@ class NewsTransformer
                 'show' => $item->show,
                 'title_ru' => $item->newsData()->Ru()->first()?->title ?? '',
                 'title_en' => $item->newsData()->En()->first()?->title ?? '',
-                'created_at' => $item->created_at->format('d.m.Y H:i'),
-                'updated_at' => $item->updated_at?->format('d.m.Y H:i'),
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
             ];
         })->toArray();
     }

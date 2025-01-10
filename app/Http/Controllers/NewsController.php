@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\Language;
 use App\Models\NewsData;
 use App\Services\NewsService;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
@@ -23,19 +24,26 @@ class NewsController extends Controller
     {
         $news = News::query();
 
+        $languages = Language::getLanguagesNames();
+
+        foreach ($languages as $language) {
+            $alias = 'news_data_' . $language;
+            $news = $news->join('news_data AS ' . $alias, function ($join) use ($language, $alias) {
+                $join->on('news.id', '=', $alias . '.news_id')
+                    ->on($alias . '.language', '=', DB::raw("'$language'"));
+            }, where: true);
+        }
+
         if ($rawSortColumn = $request->query('sortColumn')) {
             $sortDirection = $request->query('sortDirection');
 
             if ($rawSortColumn === 'ID') {
-                $news = $news->orderBy('id', $sortDirection);
+                $news = $news->orderBy('news.id', $sortDirection);
             } else {
                 $sortColumnPart = explode(' ', strtolower($rawSortColumn));
                 $sortColumn = $sortColumnPart[0];
                 $sortColumnLanguage = $sortColumnPart[1];
-                $news = $news->with([
-                    'newsData' => fn ($query) => $query->orderBy($sortColumn, $sortDirection)
-                        ->where('language', $sortColumnLanguage)
-                ]);
+                $news = $news->orderBy("news_data_$sortColumnLanguage." . $sortColumn, $sortDirection);
             }
 
         }
@@ -47,19 +55,32 @@ class NewsController extends Controller
                 if ($value !== null && $value !== 'undefined') {
                     $searchColumn = $column;
 
+                    if ($searchColumn === 'show' || $searchColumn === 'id') {
+                        $news = $news->where('news.' . $searchColumn, $value);
+                        continue;
+                    }
+
                     if (str_starts_with($column, 'title')) {
                         $searchColumn = 'title';
                     }
 
                     $lang = substr($column, strpos($column, '_') + 1, 2);
 
-                    $news = $news->whereHas('newsData', function ($query) use ($searchColumn, $value, $lang) {
-                        $query->where($searchColumn, 'ILIKE', '%' . mb_strtolower($value) . '%')
-                            ->where('language', $lang);
-                    });
+                    $news = $news
+                        ->where("news_data_$lang." . $searchColumn, 'ILIKE', '%' . mb_strtolower($value) . '%');
                 }
             }
         }
+
+        $selectableFields = ['news.id'];
+
+        foreach ($languages as $language) {
+            $selectableFields[] = 'news_data_' . $language . '.title AS title_' . $language;
+        }
+
+        $selectableFields = array_merge($selectableFields, ['news.show', 'news.created_at', 'news.updated_at']);
+
+        $news = $news->select($selectableFields);
 
         return response()->json(
             (new NewsTransformer())->transform($news->get()),
@@ -107,7 +128,7 @@ class NewsController extends Controller
             ->with([
                 'news' => $news->load('newsData'),
                 'currentPicturePath' => $news->picture,
-                'languages' => Language::getLanguagesNames()
+                'languages' => Language::getLanguagesNames(),
             ]);
     }
 
@@ -126,14 +147,14 @@ class NewsController extends Controller
             NewsData::where(['id' => $newsDataId])->updateOrCreate(
                 [
                     'news_id' => $news->id,
-                    'language' => $language
+                    'language' => $language,
                 ],
                 [
                     'news_id' => $news->id,
                     'title' => $title,
                     'announce' => $announce,
                     'text' => $text,
-                ]
+                ],
             );
         }
 
@@ -142,6 +163,14 @@ class NewsController extends Controller
         if ($picture = $request->file('picture')) {
             NewsService::saveFile($news, $picture);
         }
+
+        return Redirect::back();
+    }
+
+    public function destroy(News $news)
+    {
+        $news->newsData()->delete();
+        $news->delete();
 
         return Redirect::back();
     }

@@ -33,6 +33,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/edit/{news}', [NewsController::class, 'edit'])->name('edit');
         Route::post('/update/{news}', [NewsController::class, 'update'])->name('update');
+
+        Route::delete('/delete/{news}', [NewsController::class, 'destroy'])->name('delete');
     });
 
     Route::name('promotions.')->prefix('promotions')->group(function () {
@@ -46,6 +48,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/edit/{promotion}', [PromotionsController::class, 'edit'])->name('edit');
         Route::post('/update/{promotion}', [PromotionsController::class, 'update'])->name('update');
+
+        Route::delete('/delete/{promotion}', [PromotionsController::class, 'destroy'])->name('delete');
     });
 
     Route::get('/participators', [PromotionParticipatorController::class, 'index'])->name('participators.index');

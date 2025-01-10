@@ -7,6 +7,9 @@ import PageContainerBlock from '@/Components/PageContainerBlock.vue';
 import HeaderCell from '@/Components/Table/HeaderCell.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { onMounted, ref, watch } from 'vue';
+import { Link } from '@inertiajs/vue3';
+import IconDelete from '@/Components/Icons/IconDelete.vue';
+import { dateToString } from '../../date-helper';
 
 const pending = ref(false);
 const interactiveCells = ['ID', 'Title Ru', 'Title En'];
@@ -71,6 +74,15 @@ function handleSearch() {
     searchHandlerTimeout.value = setTimeout(sync, 200);
 }
 
+function removeFromResultSet(id: number) {
+    for (let i = 0; i < rows.value.length; i++) {
+        if (rows.value[i].id === id) {
+            rows.value.splice(i, 1)
+            break
+        }
+    }
+}
+
 onMounted(() => sync());
 </script>
 
@@ -130,6 +142,7 @@ onMounted(() => sync());
                         <th>Created</th>
                         <th>Updated</th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -138,12 +151,23 @@ onMounted(() => sync());
                         <td>{{ row.title_ru }}</td>
                         <td>{{ row.title_en }}</td>
                         <td>{{ row.show ? 'Yes' : 'No' }}</td>
-                        <td>{{ row.created_at }}</td>
-                        <td>{{ row.updated_at }}</td>
+                        <td>{{ dateToString(new Date(row.created_at)) }}</td>
+                        <td>{{ dateToString(new Date(row.updated_at)) }}</td>
                         <td>
                             <NavLink :href="route('news.edit', { id: row.id })">
                                 <IconPencil />
                             </NavLink>
+                        </td>
+                        <td>
+                            <Link
+                                :href="route('news.delete', {id: row.id})"
+                                @click="removeFromResultSet(row.id)"
+                                method="delete"
+                                as="button"
+
+                            >
+                                <IconDelete/>
+                            </Link>
                         </td>
                     </tr>
                     <tr v-if="!rows.length">
