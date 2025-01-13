@@ -29,7 +29,7 @@ class Promotion extends Model
         // Validation dynamic data
         foreach ($languages as $language) {
             $title = $request->get('title_' . $language);
-            $description = $request->get('description_' . $language);
+            $description = $request->get('description_first_' . $language);
             $body = $request->get('body_' . $language);
 
             if (empty($title) && empty($description) && empty($body)) {
@@ -43,7 +43,7 @@ class Promotion extends Model
             }
 
             if (empty($description)) {
-                $errors['description_' . $language] = '"Description ' . $language . '" is required';
+                $errors['description_first_' . $language] = '"Description First ' . $language . '" is required';
             }
         }
 

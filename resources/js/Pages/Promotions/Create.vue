@@ -22,7 +22,9 @@ let fields:PromotionForm = {
 
 props.languages?.forEach((language: string) => {
     fields[`title_${language}` as keyof PromotionForm] = '';
-    fields[`description_${language}` as keyof PromotionForm] = '';
+    fields[`description_first_${language}` as keyof PromotionForm] = '';
+    fields[`description_second_${language}` as keyof PromotionForm] = '';
+    fields[`description_third_${language}` as keyof PromotionForm] = '';
     fields[`body_${language}` as keyof PromotionForm] = '';
 });
 
@@ -68,21 +70,59 @@ const previewSrc = computed(() => {
 
                     <div>
                         <InputLabel
-                            :for="'description_' + language"
-                            :value="'Description ' + language.toLowerCase()"
+                            :for="'description_first_' + language"
+                            :value="'Description First ' + language.toLowerCase()"
                         />
 
-                        <Editor
-                            :id="'description_' + language"
+                        <InputText
+                            :id="'description_first_' + language"
                             class="mt-1 block w-full"
-                            v-model="form['description_' + language]"
+                            v-model="form['description_first_' + language]"
                             required
                         >
-                        </Editor>
+                        </InputText>
 
                         <InputError
                             class="mt-2"
-                            :message="form.errors['description_' + language]"
+                            :message="form.errors['description_first_' + language]"
+                        />
+                    </div>
+
+                    <div>
+                        <InputLabel
+                            :for="'description_second_' + language"
+                            :value="'Description Second ' + language.toLowerCase()"
+                        />
+
+                        <InputText
+                            :id="'description_second_' + language"
+                            class="mt-1 block w-full"
+                            v-model="form['description_second_' + language]"
+                        >
+                        </InputText>
+
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors['description_second_' + language]"
+                        />
+                    </div>
+
+                    <div>
+                        <InputLabel
+                            :for="'description_third_' + language"
+                            :value="'Description Third ' + language.toLowerCase()"
+                        />
+
+                        <InputText
+                            :id="'description_third_' + language"
+                            class="mt-1 block w-full"
+                            v-model="form['description_third_' + language]"
+                        >
+                        </InputText>
+
+                        <InputError
+                            class="mt-2"
+                            :message="form.errors['description_third_' + language]"
                         />
                     </div>
 
