@@ -39,9 +39,9 @@ props.promotion.promotion_data?.forEach((item: PromotionData) => {
 
     fields[`promotion_data_${language}_id` as keyof PromotionForm] = item.id.toString();
     fields[`title_${language}` as keyof PromotionForm] = item.title;
-    fields[`description_first_${language}` as keyof PromotionForm] = item.description;
-    fields[`description_second_${language}` as keyof PromotionForm] = item.description;
-    fields[`description_third_${language}` as keyof PromotionForm] = item.description;
+    fields[`description_first_${language}` as keyof PromotionForm] = item.description_first;
+    fields[`description_second_${language}` as keyof PromotionForm] = item.description_second;
+    fields[`description_third_${language}` as keyof PromotionForm] = item.description_third;
     fields[`body_${language}` as keyof PromotionForm] = item.body;
 });
 

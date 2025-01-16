@@ -14,7 +14,9 @@ export type PromotionData = {
     id: number,
     promotion_id: number,
     title: string,
-    description: string,
+    description_first: string,
+    description_second: string,
+    description_third: string,
     body: string,
     language: string,
 }

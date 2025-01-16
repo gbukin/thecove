@@ -45,16 +45,20 @@ class PromotionsController extends Controller
 
         foreach ($languages as $language) {
             $title = $request->get('title_' . $language) ?? '';
-            $description = $request->get('description_' . $language) ?? '';
+            $descriptionFirst = $request->get('description_first_' . $language) ?? '';
+            $descriptionSecond = $request->get('description_second_' . $language) ?? '';
+            $descriptionThird = $request->get('description_third_' . $language) ?? '';
             $body = $request->get('body_' . $language) ?? '';
 
-            if (empty($title) && empty($description) && empty($body)) {
+            if (empty($title) && empty($descriptionFirst) && empty($body)) {
                 continue;
             }
 
             PromotionData::create([
                 'title' => $title,
-                'description' => $description,
+                'description_first' => $descriptionFirst,
+                'description_second' => $descriptionSecond,
+                'description_third' => $descriptionThird,
                 'body' => $body,
                 'language' => $language,
                 'promotion_id' => $promotion->id,
@@ -82,7 +86,9 @@ class PromotionsController extends Controller
         foreach ($languages as $language) {
             $promotionDataId = $request->get('promotion_data_' . $language . '_id');
             $title = $request->get('title_' . $language) ?? '';
-            $description = $request->get('description_' . $language) ?? '';
+            $descriptionFirst = $request->get('description_first_' . $language) ?? '';
+            $descriptionSecond = $request->get('description_second_' . $language) ?? '';
+            $descriptionThird = $request->get('description_third_' . $language) ?? '';
             $body = $request->get('body_' . $language) ?? '';
 
             PromotionData::where(['id' => $promotionDataId])->updateOrCreate(
@@ -92,7 +98,9 @@ class PromotionsController extends Controller
                 ],
                 [
                     'title' => $title,
-                    'description' => $description,
+                    'description_first' => $descriptionFirst,
+                    'description_second' => $descriptionSecond,
+                    'description_third' => $descriptionThird,
                     'body' => $body,
                 ]
             );
