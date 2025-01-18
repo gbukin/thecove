@@ -33,15 +33,20 @@ const form = useForm(fields);
 const previewSrc = computed(() => {
     return form.picture ? URL.createObjectURL(form.picture) : '';
 });
+
+function upload() {
+    form.start_at.setHours(12)
+    form.post(route('promotions.store'))
+}
 </script>
 
 <template>
     <AuthenticatedLayout>
-        <template #header> Create Promotion</template>
+        <template #header>Create Promotion</template>
 
         <PageContainerBlock>
             <form
-                @submit.prevent="form.post(route('promotions.store'))"
+                @submit.prevent="upload()"
                 class="space-y-6"
             >
                 <template
